@@ -1,0 +1,46 @@
+{% extends "profile_base.html" %}
+{% load i18n %}
+{% load account_tags %}
+{% load url from future %}
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+
+
+
+
+{% block body_class %}home{% endblock %}
+
+{% block body %}
+<div class="frame" style="font-family:finger paint">
+<div class="container-fluid">
+<div class="row-fluid">
+
+{% if user.is_authenticated %}
+<div class="span2">  
+<div class="thumbnail">
+<h3>{% user_display request.user %}</h3>
+<p>Thumbnail caption</p>
+<img src="{{ profile.photo.url }}" alt="" height="320" width="240" />
+</div>
+
+</div>
+
+<div class="span8">
+
+<ul class="nav nav-tabs">
+  <li class="active">
+    <a href="#"> Sugar Activities </a>
+    </li>
+  <li><a href="#">Friends Feeds</a></li>
+    <li><a href="#">Project Gallery
+</a></li>
+  <li><a href="#">Remixed Projects </a></li>
+</ul>
+
+</div>
+
+{% else %}
+                 <h1><a href="{% url "account_login" %}">{% trans "Log in" %}</a></h1>
+
+      {% endif %}
+</div>
+{% endblock %}
