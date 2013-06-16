@@ -131,11 +131,13 @@ INSTALLED_APPS = [
     
     # external
     "account",
+    "projects",
     "metron",
     "eventlog",
     
     # project
     "moksaya",
+    
 ]
 
 # A sample logging configuration. The only tangible logging

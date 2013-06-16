@@ -25,16 +25,36 @@
 </div>
 
 <div class="span8">
-
+<div class="tabbable">
 <ul class="nav nav-tabs">
   <li class="active">
-    <a href="#"> Sugar Activities </a>
+    <a href="#tab1" data-toggle="tab"> Sugar Activities </a>
     </li>
-  <li><a href="#">Friends Feeds</a></li>
-    <li><a href="#">Project Gallery
+  <li><a href="#tab2" data-toggle="tab">Friends Feeds</a></li>
+    <li><a href="#tab3" data-toggle="tab">Project Gallery
 </a></li>
-  <li><a href="#">Remixed Projects </a></li>
+  <li><a href="#tab4" data-toggle="tab">Remixed Projects </a></li>
 </ul>
+<div class="tab-content">
+  <div class="tab-pane active" id="tab1">
+    <h1>{{ project.owner }}</h1>
+    <h2>{{ project.shared_date }}</h2>
+    <h3>{{ project.title }}</h3>
+    <h4>{{ project.desc }}</h4>
+    <div class="thumbnail">
+    <img src="{{ project.screenshot.url }}" height="320" width="240" />
+    </div>
+    <a href="{{ project.src.url }}" >source code </a>
+
+
+</div>
+  <div class="tab-pane" id="tab2">
+    <p> Howdy stranger </p>
+</div>
+</div>
+</div>
+
+
 
 </div>
 
