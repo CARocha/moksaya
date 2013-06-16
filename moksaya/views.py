@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 def Profiler(request):
 
     profile = Account.objects.get(user=request.user)
-    project = Projects.objects.get(owner=request.user)
+    project = Projects.objects.filter(owner=request.user)
 
     return render_to_response('profile.html', locals() ,context_instance= RequestContext(request))
 

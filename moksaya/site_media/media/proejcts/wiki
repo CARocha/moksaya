@@ -1,0 +1,51 @@
+== [http://sanskritdictionary.org/moksaya Moksaya] Project : ==
+==== A Dajngo based web app aimed at sharing and collaboration of sugar activities to foster learning and creativity ====
+
+Goal of this project is to implement a Project Sharing site to foster collaboration and sharing of Sugar Activities over the internet.The website upon the completion would also provide REST-API’s , so that the services of the website could be utilised by the Sugar Activities to share the project on the site from within the Sugar Environment.
+
+=== Key Deliverables : ===
+Here I have listed the Key features that I am currently working on , however as we go through the course of GSoC new features will be added ,once we have a concrete and stable base infrastructure for the Social Project Sharing site.
+
+* Social Features  : Following/Followers , Like , favourites , share , Comments .etc 
+* Authenticated RESTful API's :Ability to interact with website from various Sugar Activities 
+* Separate landing pages for different audiences (kids, teachers, parents, etc.)
+* Gallery : Ability for users to create portfolio of their projects.
+
+== Repository ==
+I am developing this project under the Moksaya branch on my [https://github.com/aregee/moksaya Github].
+ 
+
+
+== Progress ==
+<br />
+==== UI/UX ====
+The User interface and user experience of the site is an essential feature , we have to get this part right as this whole project's target audience is Kids so the UI should be simple yet should be attractive to kids and the user experience should be done in a way such that if kids use the site ,they are comfortable with all the functionality being offered by the site and engage on the site.
+Here are some of my Design Approach :
+<gallery>
+File:Moksha_1.png|Caption1
+File:Moksha_2.png|Caption2
+File:Moksha_3.png|Caption3
+</gallery>
+
+I am planning to stage the site on PaaS platform maybe like OpenShift , however there have been certains glitches with my Openshift account but I will try to work it out or consider some other feasible alternative.
+I am doing this because with this approach I would be able to get user feedback from community members side by side with my development efforts and hence I can iterate and improve with their feedbacks.
+
+
+=== Site Model === 
+
+Initially Moksaya project offers the following functionality to the site : 
+
+* Accounts : I have added an existing Django app to handle authentication and user accounts , I have made some modifications to include the User Profile functionality.It's not complete but it's functional so to give me an idea of what we are trying to achieve.
+
+* Projects : This django app facilitates the site with the ability to Upload / Download and sharing of Projects along with the basic descriptions.This app also provides the comment functionality and I plan to extend this app to handle more functionalities like Forking , Galleries , Favourite , Like etcs.
+
+* Pinax_Theme_bootstrap : I have been customizing this django app to attain a desirable frontend , this app handles the User Interface Part.
+
+
+=== TODOS === 
+
+* Implement a friendship or followership feature
+* Add a Like button to Projects and Comments Model, considering using existing Django app Phileo for that 
+* Improve the user interface and 
+
+
