@@ -134,6 +134,7 @@ INSTALLED_APPS = [
     "projects",
     "metron",
     "eventlog",
+    "friendship",
     
     # project
     "moksaya",

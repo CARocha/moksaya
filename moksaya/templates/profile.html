@@ -2,8 +2,9 @@
 {% load i18n %}
 {% load account_tags %}
 {% load url from future %}
+{% load metron_tags %}
 {% block head_title %}{% trans "Welcome" %}{% endblock %}
-
+{% load friendshiptags %}
 
 
 
@@ -21,7 +22,8 @@
 <p>Thumbnail caption</p>
 <img src="{{ profile.photo.url }}" alt="" height="320" width="240" />
 </div>
-
+<h3> Friends </h3>
+{% friends request.user %}
 </div>
 
 <div class="span8">
@@ -36,86 +38,62 @@
   <li><a href="#tab4" data-toggle="tab">Remixed Projects </a></li>
 </ul>
 <div class="tab-content">
-  <div class="tab-pane active" id="tab1">
 
-<div class="carousel slide" id="myCarousel">
-<div class="carousel-inner">
-  <div class="item active">
-        <ul class="thumbnails">
-	  {% for pro in project %}
-            <li class="span3">
-                <div class="thumbnail">
-    <img src="{{ pro.screenshot.url }}" height="320" width="240" />
-       <small>{{ pro.shared_date }}</small>
-    <small>{{ pro.title }}</small>
-    <small>{{ pro.desc }}</small>
-    <a href="{{ pro.src.url }}" >source code </a>
-   
-                </div>
-            </li>
+<div class="tab-pane active" id="tab1">
+<ul>
+  {% for pro in project %}
+
+  <li id="tab_profile"><strong>{{ pro.title }}</strong><img class="pull-right" src="{{ pro.screenshot.url }}" height="60" width="60" /><br>{{ pro.desc }}<br>{{ pro.shared_date }}<a href="{{ pro.src.url }}" > Source code </a></li><hr>
 {% endfor %}
-
-        </ul>
-  </div>
-  <div class="item">
-        <ul class="thumbnails">
-            <li class="span3">
-                <div class="thumbnail">
-                    <img src="http://placehold.it/260x180" alt="">
-                </div>
-            </li>
-            <li class="span3">
-                <div class="thumbnail">
-                    <img src="http://placehold.it/260x180" alt="">
-                </div>
-            </li>
-            <li class="span3">
-                <div class="thumbnail">
-                    <img src="http://placehold.it/260x180" alt="">
-                </div>
-            </li>
-            <li class="span3">
-                <div class="thumbnail">
-                    <img src="http://placehold.it/260x180" alt="">
-                </div>
-            </li>
-        </ul>
-  </div>
-  <div class="item">
-        <ul class="thumbnails">
-            <li class="span3">
-                <div class="thumbnail">
-                    <img src="http://placehold.it/260x180" alt="">
-                </div>
-            </li>
-            <li class="span3">
-                <div class="thumbnail">
-                    <img src="http://placehold.it/260x180" alt="">
-                </div>
-            </li>
-            <li class="span3">
-                <div class="thumbnail">
-                    <img src="http://placehold.it/260x180" alt="">
-                </div>
-            </li>
-            <li class="span3">
-                <div class="thumbnail">
-                    <img src="http://placehold.it/260x180" alt="">
-                </div>
-            </li>
-        </ul>
-  </div>
+</ul>
+{% if project|length >= 4 %}<a href="#" >View More </a>{% endif %}
 </div>
+  <div class="tab-pane" id="tab3">
+
+    <div class="carousel slide" id="myCarousel">
+      <div class="carousel-inner">
+
+	<div class="item active">
+          <ul class="thumbnails">
+	    
+{% for pro in project|slice:":4" %} 	   
+	              <li class="span3"> 
+              <div class="thumbnail">/
+		<img src="{{ pro.screenshot.url }}" height="320" width="240" />
+<ul>
+<li><small>{{ pro.title|truncatewords_html:"3"|safe }} @{{ pro.owner }} {{ pro.shared_date }} <a href="{{ pro.src.url }}" > Source code </a> </small></li></ul>
+   
+              </div>
+            </li>
+
+	     {% endfor %}
+          </ul>
+  </div>
+
+<div class="item">
+<ul class="thumbnails">
+{% for pro in project|slice:"4:" %}
+<li class="span3">
+  <div class="thumbnail">
+	      <img src="{{ pro.screenshot.url }}" height="320" width="240" />
+</div>
+</li>
+{% endfor %}
+</ul>
+</div>
+
 <a data-slide="prev" href="#myCarousel" class="left carousel-control">‹</a>
 <a data-slide="next" href="#myCarousel" class="right carousel-control">›</a>
 </div>
+</div>
 
+</div>
 
 
 <div class="tab-pane" id="tab2">
-    <p> Howdy stranger </p>
+<h1>howdy stranger</h1>
 </div>
-</div>
+
 </div>
 
 
