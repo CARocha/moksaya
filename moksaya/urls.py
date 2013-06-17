@@ -14,7 +14,8 @@ urlpatterns = patterns("",
     url(r"^profile/", "moksaya.views.Profiler", name="profile"),
     url(r"^admin/", include(admin.site.urls)),
     url(r"^account/", include("account.urls")),
-    url(r"^friends/", include("friendship.urls")),                   
+    url(r"^friends/", include("friendship.urls")),
+    url(r"^project/", TemplateView.as_view(template_name="project.html"), name="project"),
 )
 
 

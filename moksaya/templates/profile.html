@@ -12,10 +12,11 @@
 
 {% block body %}
 <div class="frame" style="font-family:finger paint">
+{% if user.is_authenticated %}
 <div class="container-fluid">
 <div class="row-fluid">
 
-{% if user.is_authenticated %}
+{% block base-1 %}
 <div class="span2">  
 <div class="thumbnail">
 <h3>{% user_display request.user %}</h3>
@@ -25,7 +26,9 @@
 <h3> Friends </h3>
 {% friends request.user %}
 </div>
+{% endblock %}
 
+{% block base-2 %}
 <div class="span8">
 <div class="tabbable">
 <ul class="nav nav-tabs">
@@ -96,7 +99,7 @@
 
 </div>
 
-
+{% endblock %}
 
 
 {% else %}
