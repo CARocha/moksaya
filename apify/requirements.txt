@@ -1,0 +1,17 @@
+#Version of Django
+Django==1.4.5
+
+# Django-guardian used for privacy settings
+django-guardian
+
+#Django Tastypie for Restful APIs
+
+django-tastypie
+
+# Django-south for migrations
+South
+
+#python Imaging library for uploading images in admin interface
+
+Pillow==2.0.0
+

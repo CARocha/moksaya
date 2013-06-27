@@ -7,6 +7,12 @@ PACKAGE_ROOT = os.path.abspath(os.path.dirname(__file__))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+# To get Django to link USER instance to their profile pages "
+
+#ABSOLUTE_URL_OVERRIDES = {
+#        "auth.user": lambda o: "/profiles/profile/%s/" % o.username,
+#    }
+
 ADMINS = [
     # ("Your Name", "your_email@example.com"),
 ]
@@ -105,8 +111,25 @@ MIDDLEWARE_CLASSES = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    'userena.middleware.UserenaLocaleMiddleware',
 ]
 
+# Add the Guardian and userena authentication backends
+AUTHENTICATION_BACKENDS = (
+    'userena.backends.UserenaAuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+
+
+# Settings used by Userena
+LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
+LOGIN_URL = '/accounts/signin/'
+LOGOUT_URL = '/accounts/signout/'
+AUTH_PROFILE_MODULE = 'profiles.Profile'
+USERENA_DISABLE_PROFILE_LIST = True
+USERENA_MUGSHOT_SIZE = 140
 ROOT_URLCONF = "moksaya.urls"
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -135,6 +158,13 @@ INSTALLED_APPS = [
     "metron",
     "eventlog",
     "friendship",
+    'guardian',
+    'south',
+    'userena',
+    'userena.contrib.umessages',
+    'profiles',
+
+
     
     # project
     "moksaya",
@@ -181,10 +211,13 @@ ACCOUNT_USE_OPENID = False
 ACCOUNT_REQUIRED_EMAIL = False
 ACCOUNT_EMAIL_VERIFICATION = False
 ACCOUNT_EMAIL_AUTHENTICATION = False
-ACCOUNT_LOGIN_REDIRECT_URL = "home"
-ACCOUNT_LOGOUT_REDIRECT_URL = "home"
+#ACCOUNT_LOGIN_REDIRECT_URL = "home"
+#ACCOUNT_LOGOUT_REDIRECT_URL = "home"
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 2
 
-AUTHENTICATION_BACKENDS = [
-    "account.auth_backends.UsernameAuthenticationBackend",
-]
+#AUTHENTICATION_BACKENDS = [
+#    "account.auth_backends.UsernameAuthenticationBackend",
+#]
+
+# Needed for Django guardian
+ANONYMOUS_USER_ID = -1

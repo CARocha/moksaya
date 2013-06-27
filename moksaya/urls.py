@@ -5,8 +5,15 @@ from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from moksaya.views import *
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf.urls import *
+from django.views.generic.base import TemplateView
+from django.contrib.auth import views as auth_views
+
 from django.contrib import admin
 admin.autodiscover()
+from userena import views as userena_views
+from userena import settings as userena_settings
+
 
 
 urlpatterns = patterns("",
@@ -16,6 +23,9 @@ urlpatterns = patterns("",
     url(r"^account/", include("account.urls")),
     url(r"^friends/", include("friendship.urls")),
     url(r"^project/", TemplateView.as_view(template_name="project.html"), name="project"),
+    url(r'^accounts/(?P<username>(?!signout|signup|signin)[\.\w-]+)/$',"moksaya.views.moksaya_profile", name='userena_profile_detail'),                   
+    url(r'^userena/', include('userena.urls')),
+    #url(r"^profiles/", include("idios.urls")),                   
 )
 
 

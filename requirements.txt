@@ -13,4 +13,8 @@ coverage
 django-coverage
 pep8
 pyflakes
+# Django-guardian used for privacy settings
+django-guardian
 
+# Django-south for migrations
+South
