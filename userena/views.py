@@ -11,7 +11,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django.http import HttpResponseForbidden, Http404, HttpResponseRedirect
-from projects.models import *
+
 from userena.forms import (SignupForm, SignupFormOnlyEmail, AuthenticationForm,
                            ChangeEmailForm, EditProfileForm)
 from userena.models import UserenaSignup
@@ -628,7 +628,6 @@ def profile_edit(request, username, edit_profile_form=EditProfileForm,
 
     profile = user.get_profile()
 
-
     user_initial = {'first_name': user.first_name,
                     'last_name': user.last_name}
 
@@ -679,8 +678,7 @@ def profile_detail(request, username,
     """
     user = get_object_or_404(get_user_model(),
                              username__iexact=username)
-    project =  Projects.objects.filter(owner=request.user)
-    extra_context = {"project":project}
+
     profile_model = get_profile_model()
     try:
         profile = user.get_profile()
