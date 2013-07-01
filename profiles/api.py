@@ -34,12 +34,12 @@ class LikeResource(ModelResource):
     class Meta:
         queryset = Like.objects.all()
         serializer = PrettyJSONSerializer()
-        excludes = ['id']
+        excludes = []
         resource_name = 'liking'
         include_resoure_uri = True
     def dehyrdate(self, bundle):
-        bundle.data["sender"]= bundle.obj.sender
-        return bundle
+       
+        return likes
     
      
 
@@ -67,7 +67,9 @@ class ProjectResource(ModelResource):
         include_resource_uri = False
 
     def dehydrate(self, bundle):
+        
         bundle.data["owner"] = bundle.obj.owner
+   
         return bundle 
 
 
@@ -83,6 +85,7 @@ class ProfileResource(ModelResource):
         include_resource_uri = False
     
     def dehydrate(self, bundle):
-        all_friends = Friend.objects.friends(bundle.obj.user)
         bundle.data["user"] = bundle.obj.user
-        return bundle, all_friends 
+        all_friends = Friend.objects.friends(bundle.obj.user)
+        bundle.data["friends"] = all_friends
+        return bundle
