@@ -287,7 +287,7 @@ class Friend(models.Model):
 
     def __unicode__(self):
        # return "User #%d is friends with #%d" % (self.to_user_id, self.from_user_id)
-         return "User %s is friends with %s" % (self.to_user, self.from_user)
+         return "User %d is friends with %d" % (self.to_user_id, self.from_user_id)
 
     def save(self, *args, **kwargs):
         # Ensure users can't be friends with themselves

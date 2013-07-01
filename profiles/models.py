@@ -68,3 +68,6 @@ class Comment(models.Model):
     
       def __unicode__(self):
           return self.text
+
+
+        

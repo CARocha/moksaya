@@ -9,15 +9,15 @@ from profiles.forms import SignupFormExtra
 from django.contrib import admin
 admin.autodiscover()
 
-from profiles.api import ProfileResource , ProjectResource 
+from profiles.api import ProfileResource , ProjectResource , LikeResource , FriendResource
 
 from tastypie.api import Api
 
 v1_api = Api(api_name='v1')
 v1_api.register(ProjectResource())
 v1_api.register(ProfileResource())
-#v1_api.register(UserResource())
-
+v1_api.register(LikeResource())
+v1_api.register(FriendResource())
 #profile_resource = ProfileResource()
 #project_resource = ProjectResource()
 
@@ -38,6 +38,7 @@ urlpatterns = patterns('',
     (r'^accounts/', include('userena.urls')),
     (r'^messages/', include('userena.contrib.umessages.urls')),
     url(r'^api/', include(v1_api.urls)),
+    url(r"^likes/", include("phileo.urls")),                   
     #url(r'^api/', include(project_resource.urls)),
                        
     

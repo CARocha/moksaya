@@ -91,6 +91,7 @@ AUTHENTICATION_BACKENDS = (
     'userena.backends.UserenaAuthenticationBackend',
     'guardian.backends.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'phileo.auth_backends.CanLikeBackend',
 )
 
 # Settings used by Userena
@@ -125,6 +126,7 @@ INSTALLED_APPS = (
     'project',
     'tastypie',
     'friendship',
+    'phileo',
 )
 
 LOGGING = {
@@ -151,6 +153,9 @@ LOGGING = {
     }
 }
 
+PHILEO_LIKABLE_MODELS = {
+    "profiles.Model": {}  # can override default config settings for each model here
+}
 # Needed for Django guardian
 ANONYMOUS_USER_ID = -1
 
