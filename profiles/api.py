@@ -7,6 +7,7 @@ from django.db.models import Q
 from profiles.models import *
 from django.contrib.auth.models import User
 from friendship.models import *
+from django.contrib.contenttypes.models import ContentType
 from phileo.models import *
 
 class PrettyJSONSerializer(Serializer): 
@@ -38,8 +39,11 @@ class LikeResource(ModelResource):
         resource_name = 'liking'
         include_resoure_uri = True
     def dehyrdate(self, bundle):
-       
-        return likes
+        
+        likes = Like.objects.filter(receiver_content_type=ContentType.objects.get_for_model(Project) , receiver_object_id=id).count 
+        bundle.data["Likes"] = likes
+        return bundle
+
     
      
 
@@ -69,6 +73,8 @@ class ProjectResource(ModelResource):
     def dehydrate(self, bundle):
         
         bundle.data["owner"] = bundle.obj.owner
+        likes = Like.objects.filter(receiver_content_type=ContentType.objects.get_for_model(Project) , receiver_object_id=bundle.obj.id).count ()
+        bundle.data["Likes"] = likes
    
         return bundle 
 
