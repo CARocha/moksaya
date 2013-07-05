@@ -35,9 +35,9 @@ class ForkResource(ModelResource):
         def clone(pro_id,username):
 
             cloned = Project.objects.get(pk = pro_id)
-            creater = cloned.owner
+            creator = cloned.owner
             requester = Profile.objects.get(user = username)
-            if creater == requester:
+            if creator == requester:
                 changes = "none , you are the owner"
             else:
                 forked = cloned.fork()
@@ -49,6 +49,7 @@ class ForkResource(ModelResource):
 
 
         bundle.data["Changes"]= clone(pro_id,username) 
+        bundle.data["Owner"] = bundle.obj.owner
 
         return bundle 
 
@@ -91,7 +92,7 @@ class ProjectResource(ModelResource):
         queryset = Project.objects.all()
         serializer = PrettyJSONSerializer()
         resource_name = 'projects'
-        excludes = ['id']
+        excludes = []
         include_resource_uri = False
 
     def dehydrate(self, bundle):
