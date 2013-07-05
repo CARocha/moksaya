@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-
+from forkit.models import ForkableModel
 from userena.models import UserenaLanguageBaseProfile,UserenaBaseProfile
 from userena.utils import user_model_label
 from django.utils import timezone
@@ -43,12 +43,12 @@ class Profile(UserenaLanguageBaseProfile):
             except ValueError:
                 day = today.day - 1 if today.day != 1 else today.day + 2
                 birthday = self.birth_date.replace(year=today.year, day=day)
-            if birthday > today: return today.year - self.birth_date.year - 1
+                if birthday > today: return today.year - self.birth_date.year - 1
             else: return today.year - self.birth_date.year
         
 
 
-class Project(models.Model):
+class Project(ForkableModel):
       owner = models.ForeignKey(Profile, related_name='projects')
       shared_date = models.DateTimeField('date published')
       title = models.CharField(max_length=100)
@@ -61,6 +61,8 @@ class Project(models.Model):
           super(Project, self).save(*args, **kwargs)
       def __unicode__(self):
           return self.title
+
+
 
 class Comment(models.Model):
       entry = models.ForeignKey(Project,related_name='comment')

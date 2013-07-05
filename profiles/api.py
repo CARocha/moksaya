@@ -19,31 +19,55 @@ class PrettyJSONSerializer(Serializer):
         return simplejson.dumps(data, cls=json.DjangoJSONEncoder, sort_keys=True, ensure_ascii=False, indent=self.json_indent) 
  
 
-
-class FriendResource(ModelResource):
+class ForkResource(ModelResource):
     class Meta:
-        queryset = Friend.objects.all()
+        queryset = Project.objects.all()
         serializer = PrettyJSONSerializer()
         excludes = ['id']
-        resource_name= 'friends'
-        include_resource_uri = True
+        resource_name = 'forking'
+        include_resoure_uri = True
+       
     def dehydrate(self, bundle):
-        all_friends = Friend.objects.friends(bundle.request.user)
-        return all_friends
- 
+        pro_id = int(bundle.obj.id)
+        username = bundle.request.user
+# following method clones the requested project to current users profile
+#For now this works as get /forking/pk/        
+        def clone(pro_id,username):
+
+            cloned = Project.objects.get(pk = pro_id)
+            creater = cloned.owner
+            requester = Profile.objects.get(user = username)
+            if creater == requester:
+                changes = "none , you are the owner"
+            else:
+                forked = cloned.fork()
+                forked.owner = Profile.objects.get(user = username)
+                forked.commit()
+                changes = forked.diff(cloned)
+            
+            return changes
+
+
+        bundle.data["Changes"]= clone(pro_id,username) 
+
+        return bundle 
+
+
 class LikeResource(ModelResource):
     class Meta:
         queryset = Like.objects.all()
         serializer = PrettyJSONSerializer()
-        excludes = []
+        excludes = ['id','receiver_object_id']
         resource_name = 'liking'
         include_resoure_uri = True
-    def dehyrdate(self, bundle):
-        
-        likes = Like.objects.filter(receiver_content_type=ContentType.objects.get_for_model(Project) , receiver_object_id=id).count 
-        bundle.data["Likes"] = likes
-        return bundle
 
+    def dehydrate(self, bundle):
+        
+        likes = Like.objects.filter(receiver_content_type=ContentType.objects.get_for_model(Project) , receiver_object_id=bundle.obj.id).count ()
+        bundle.data["Likes"] = likes
+   
+        return bundle
+    
     
      
 
@@ -75,7 +99,7 @@ class ProjectResource(ModelResource):
         bundle.data["owner"] = bundle.obj.owner
         likes = Like.objects.filter(receiver_content_type=ContentType.objects.get_for_model(Project) , receiver_object_id=bundle.obj.id).count ()
         bundle.data["Likes"] = likes
-   
+    
         return bundle 
 
 

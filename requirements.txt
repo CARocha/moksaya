@@ -15,3 +15,8 @@ South
 
 Pillow==2.0.0
 
+#Django-forkit for forking project models
+
+django-forkit
+
+
