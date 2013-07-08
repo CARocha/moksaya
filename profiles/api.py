@@ -3,12 +3,14 @@ from django.utils import simplejson
 from tastypie.serializers import Serializer 
 from tastypie.resources import ModelResource 
 from tastypie import fields
-from django.db.models import Q
+from django.conf.urls.defaults import *
 from profiles.models import *
 from django.contrib.auth.models import User
 from friendship.models import *
 from django.contrib.contenttypes.models import ContentType
 from phileo.models import *
+from tastypie.authorization import Authorization
+
 
 class PrettyJSONSerializer(Serializer): 
     json_indent = 4 
@@ -17,21 +19,28 @@ class PrettyJSONSerializer(Serializer):
         options = options or {} 
         data = self.to_simple(data, options) 
         return simplejson.dumps(data, cls=json.DjangoJSONEncoder, sort_keys=True, ensure_ascii=False, indent=self.json_indent) 
- 
+    def from_json(self, content):
+        data = simplejson.loads(content)
+
+        if 'requested_time' in data:
+            # Log the request here...
+            pass
+
+        return data
 
 class ForkResource(ModelResource):
     class Meta:
         queryset = Project.objects.all()
         serializer = PrettyJSONSerializer()
         excludes = ['id']
+        list_allowed_methods = ['post']
         resource_name = 'forking'
         include_resoure_uri = True
-       
+    
     def dehydrate(self, bundle):
         pro_id = int(bundle.obj.id)
         username = bundle.request.user
-# following method clones the requested project to current users profile
-#For now this works as get /forking/pk/        
+        bundle.data["history"] = bundle.obj.history
         def clone(pro_id,username):
 
             cloned = Project.objects.get(pk = pro_id)
@@ -42,16 +51,32 @@ class ForkResource(ModelResource):
             else:
                 forked = cloned.fork()
                 forked.owner = Profile.objects.get(user = username)
-                forked.commit()
                 changes = forked.diff(cloned)
-            
+                #forked.history= changes)
+                #bundle.data["history"] = (changes)
+                #bundle.data["Owner"] = bundle.obj.owner
+                
+                #forked.history = changes # bundle.data["history"]
+                forked.commit()
+                
             return changes
 
+        bundle.obj.history =  clone(pro_id,username)
+        bundle.data["history"] = bundle.obj.history
 
-        bundle.data["Changes"]= clone(pro_id,username) 
-        bundle.data["Owner"] = bundle.obj.owner
+        return bundle
+    
 
-        return bundle 
+    
+  #  def dehydrate(self, bundle):
+  #      bundle.data["Owner"] = bundle.obj.owner
+  #      bundle.data["history"] = bundle.obj.history
+
+         
+        
+   #     return bundle 
+
+
 
 
 class LikeResource(ModelResource):
@@ -93,11 +118,13 @@ class ProjectResource(ModelResource):
         serializer = PrettyJSONSerializer()
         resource_name = 'projects'
         excludes = []
+        #list_allowed_methods = ['post','get','delete']
         include_resource_uri = False
 
     def dehydrate(self, bundle):
         
         bundle.data["owner"] = bundle.obj.owner
+        bundle.data["history"] = bundle.obj.history
         likes = Like.objects.filter(receiver_content_type=ContentType.objects.get_for_model(Project) , receiver_object_id=bundle.obj.id).count ()
         bundle.data["Likes"] = likes
     
@@ -111,9 +138,10 @@ class ProfileResource(ModelResource):
     class Meta:
         queryset = Profile.objects.all()
         serializer = PrettyJSONSerializer()
-        resource_name = 'profile/list'
-        excludes = ['id']
+        resource_name = 'profile'
+        excludes = ['id','gender','birth_date']
         include_resource_uri = False
+       # authorization = Authorization()
     
     def dehydrate(self, bundle):
         bundle.data["user"] = bundle.obj.user

@@ -17,7 +17,7 @@ class Profile(UserenaLanguageBaseProfile):
                                 unique=True,
                                 verbose_name=_('user'),
                                 related_name='profile')
-# Need to Change this to M or F so this could be offered in more understandable way by the APIs 
+
     gender = models.PositiveSmallIntegerField(_('gender'),
                                               choices=GENDER_CHOICES,
                                               blank=True,
@@ -53,6 +53,7 @@ class Project(ForkableModel):
       shared_date = models.DateTimeField('date published')
       title = models.CharField(max_length=100)
       desc = models.CharField(max_length=200)
+      history = models.CharField(max_length=200,blank=True)
       src = models.FileField(upload_to='proejcts')
       screenshot = models.ImageField(upload_to='projects')
     
@@ -61,6 +62,7 @@ class Project(ForkableModel):
           super(Project, self).save(*args, **kwargs)
       def __unicode__(self):
           return self.title
+
 
 
 
