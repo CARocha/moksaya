@@ -29,6 +29,9 @@ class PrettyJSONSerializer(Serializer):
         return data
 
 class ForkResource(ModelResource):
+#    projects = fields.ToManyField('profiles.api.ProjectResource','projects', full=True)
+    
+    
     class Meta:
         queryset = Project.objects.all()
         serializer = PrettyJSONSerializer()
@@ -49,33 +52,18 @@ class ForkResource(ModelResource):
             if creator == requester:
                 changes = "none , you are the owner"
             else:
-                forked = cloned.fork()
-                forked.owner = Profile.objects.get(user = username)
-                changes = forked.diff(cloned)
-                #forked.history= changes)
-                #bundle.data["history"] = (changes)
-                #bundle.data["Owner"] = bundle.obj.owner
-                
-                #forked.history = changes # bundle.data["history"]
-                forked.commit()
-                
+                cloned.id = None
+                cloned.owner = Profile.objects.get(user = username)
+                changes = "project %s  created by %s forked by %s " % (cloned.title , creator, cloned.owner)
+                cloned.history = changes
+                cloned.save()
             return changes
 
-        bundle.obj.history =  clone(pro_id,username)
-        bundle.data["history"] = bundle.obj.history
+        
+        bundle.data["history"] = clone(pro_id,username)#bundle.obj.history
 
         return bundle
     
-
-    
-  #  def dehydrate(self, bundle):
-  #      bundle.data["Owner"] = bundle.obj.owner
-  #      bundle.data["history"] = bundle.obj.history
-
-         
-        
-   #     return bundle 
-
 
 
 
@@ -119,7 +107,7 @@ class ProjectResource(ModelResource):
         resource_name = 'projects'
         excludes = []
         #list_allowed_methods = ['post','get','delete']
-        include_resource_uri = False
+        include_resource_uri = True
 
     def dehydrate(self, bundle):
         
@@ -141,6 +129,7 @@ class ProfileResource(ModelResource):
         resource_name = 'profile'
         excludes = ['id','gender','birth_date']
         include_resource_uri = False
+        list_allowed_methods = ['post','delete','get','put']
        # authorization = Authorization()
     
     def dehydrate(self, bundle):

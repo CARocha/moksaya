@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from forkit.models import ForkableModel
+#from forkit.models import ForkableModel
 from userena.models import UserenaLanguageBaseProfile,UserenaBaseProfile
 from userena.utils import user_model_label
 from django.utils import timezone
@@ -48,7 +48,7 @@ class Profile(UserenaLanguageBaseProfile):
         
 
 
-class Project(ForkableModel):
+class Project(models.Model):
       owner = models.ForeignKey(Profile, related_name='projects')
       shared_date = models.DateTimeField('date published')
       title = models.CharField(max_length=100)
