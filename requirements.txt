@@ -20,3 +20,7 @@ Pillow==2.0.0
 django-forkit
 
 
+#phileo a liking app 
+
+phileo
+
