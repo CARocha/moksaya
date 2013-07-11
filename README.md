@@ -32,7 +32,7 @@ Reffer Tastypie documentation to know more about it http://django-tastypie.readt
 
 Okay , lets say first thing we want to do is to create a new user say 'Spock':  
 
-        $ curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"username":"spock","password":"notebook"}' http://127.0.0.1:800        0/api/v1/user/?username=aregee\&api_key=notebook
+        $ curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"username":"spock","password":"notebook"}' http://127.0.0.1:8000/api/v1/user/?username=aregee\&api_key=notebook
 	
 Lets check the created user :
 
