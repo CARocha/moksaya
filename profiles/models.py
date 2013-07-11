@@ -47,17 +47,6 @@ class Profile(UserenaLanguageBaseProfile):
             else: return today.year - self.birth_date.year
         
 
-class Moksaya(models.Model):
-      user = models.ForeignKey(Profile, related_name="usser")
-      #shared_date = models.DateTimeField('date published', blank=True)
-      title = models.CharField(max_length=100) 
-      desc = models.CharField(max_length=200,blank=True) 
-      history = models.CharField(max_length=200,blank=True)
-      src = models.FileField(upload_to='proejcts' , blank=True) 
-      screenshot = models.ImageField(upload_to='projects', blank=True)
-      
-      def __unicode__(self):
-        return self.title
 
 
 class Project(models.Model):
@@ -66,7 +55,7 @@ class Project(models.Model):
       title = models.CharField(max_length=100) 
       desc =models.CharField(max_length=200, blank=True) 
       history = models.CharField(max_length=200,blank=True) 
-      src = models.FileField(upload_to='proejcts' , blank=True) 
+      src = models.FileField(upload_to='projects' , blank=True) 
       screenshot = models.ImageField(upload_to='projects', blank=True)
     
       def save(self, *args, **kwargs):
