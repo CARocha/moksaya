@@ -30,13 +30,15 @@ Reffer Tastypie documentation to know more about it http://django-tastypie.readt
 
 ###Interacting with the APIs :
 
-Okay , lets say first thing we want to do is to create a new user say 'Spock'  
-        $ curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"username":"spock","password":"notebook"}' http://127.0.0.1:8000/api/v1/user/?username=aregee\&api_key=notebook
+Okay , lets say first thing we want to do is to create a new user say 'Spock':  
+
+        $ curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"username":"spock","password":"notebook"}' http://127.0.0.1:800        0/api/v1/user/?username=aregee\&api_key=notebook
 	
 Lets check the created user :
+
+
       	$ curl --dump-header - -H "Content-Type:application/json"-X http://127.0.0.1:8000/api/v1/user/3/?username=aregee\&api_key=notebook
 	
-
 	HTTP/1.0 200 OK
 	Date: Thu, 11 Jul 2013 02:31:21 GMT
 	Server: WSGIServer/0.1 Python/2.7.3
@@ -57,7 +59,7 @@ Lets check the created user :
 	}
 
 
-Now we have a new user created , now lets create a user profile for the Spock 
+Now we have a new user created , now lets create a user profile for the Spock: 
 
        $ curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/user/3/" , "about_me":"Hello I am Spock" }' http://127.0.0.1:8000/api/v1/profile/?username=aregee\&api_key=notebook
 
@@ -70,7 +72,7 @@ Now we have a new user created , now lets create a user profile for the Spock
        Location: http://127.0.0.1:8000/api/v1/profile/3/
        Content-Language: en-us
 
-Now simply we can access the spock's profile and prjects at the above generated url 
+Now simply we can access the spock's profile and prjects at the above generated url: 
 
       $ curl http://127.0.0.1:8000/api/v1/profile/3/?username=aregee\&api_key=notebook
  	   
@@ -92,7 +94,8 @@ Now simply we can access the spock's profile and prjects at the above generated 
 
 
 Spock has no projects , lets add a new project to his profile 
-       $ curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/profile/3/" ,"title":"Spocks first Project" , "desc":"Spock created objects with javascript" , "src":"projects/objects.js","screenshot":"/home/aregee/img_screen.jpg" }' http://127.0.0.1:8000/api/v1/projects/?username=aregee\&api_key=notebook
+
+       $ curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/profile/3/" ,"title":"Spocks first Project" , "de       sc":"Spock created objects with javascript" , "src":"projects/objects.js","screenshot":"/home/aregee/img_screen.jpg" }' http://127.0.0.1:800       0/api/v1/projects/?username=aregee\&api_key=notebook
 
        HTTP/1.0 201 CREATED
        Date: Thu, 11 Jul 2013 02:45:34 GMT
@@ -104,7 +107,8 @@ Spock has no projects , lets add a new project to his profile
        Content-Language: en-us
 
       
-Now lets check spocks profile 
+Now lets check spocks profile: 
+
        $  curl http://127.0.0.1:8000/api/v1/profile/3/?username=aregee\&api_key=notebook
 
        {
@@ -136,7 +140,8 @@ Now lets check spocks profile
        "website": ""
        }
        
-We can also access the Projects directly , here for Spock 
+We can also access the Projects directly , here for Spock:
+   
        $ curl http://127.0.0.1:8000/api/v1/projects/6/?username=aregee\&api_key=notebook
        {
        "Likes": 0, 
@@ -222,10 +227,10 @@ I am logged in as aregee , and I would like to fork Spock's work ;)
 
 
 
-Lets delete Spock's only project 
-     $  curl --dump-header - -H "Content-Type:application/json" -X DELETE http://127.0.0.1:8000/api/v1/projects/6/?username=aregee\&api_key=notebookHTTP/1.0 204 NO CONTENT
-
-
+Lets delete Spock's only project:
+     
+     $ curl --dump-header - -H "Content-Type:application/json" -X DELETE http://127.0.0.1:8000/api/v1/projects/6/?username=aregee\&api_key=notebook 
+     HTTP/1.0 204 NO CONTENT
      Date: Thu, 11 Jul 2013 03:38:22 GMT
      Server: WSGIServer/0.1 Python/2.7.3
      Vary: Accept, Accept-Language, Cookie
@@ -235,9 +240,10 @@ Lets delete Spock's only project
      Content-Language: en-us
 
 
-Now lets check spocks profile 
+Now lets check spocks profile: 
 
-       $  curl http://127.0.0.1:8000/api/v1/profile/3/?username=aregee\&api_key=notebook
+
+       $ curl http://127.0.0.1:8000/api/v1/profile/3/?username=aregee\&api_key=notebook
  
  
        {
@@ -254,8 +260,9 @@ Now lets check spocks profile
        "website": ""
        }
 
-Lets delete Spock's Profile 
-     $  curl --dump-header - -H "Content-Type:application/json" -X DELETE http://127.0.0.1:8000/api/v1/profile/3/?username=aregee\&api_key=notebook ; curl http://127.0.0.1:8000/api/v1/profile/?username=aregee\&api_key=notebook
+Lets delete Spock's Profile:
+
+     $  curl --dump-header - -H "Content-Type:application/json" -X DELETE http://127.0.0.1:8000/api/v1/profile/3/?username=aregee\&api_key=notebook     ; curl http://127.0.0.1:8000/api/v1/profile/?username=aregee\&api_key=notebook
 
 
      {
@@ -298,8 +305,10 @@ Lets delete Spock's Profile
        
 
 
-Lets delete the Spock from registered user as well 
-     $ curl --dump-header - -H "Content-Type:application/json" -X DELETE http://127.0.0.1:8000/api/v1/user/3/?username=aregee\&api_key=notebook;curl --dump-header - -H "Content-Type:application/json" http://127.0.0.1:8000/api/v1/user/
+Lets delete the Spock from registered user as well:
+
+     $ curl --dump-header - -H "Content-Type:application/json" -X DELETE http://127.0.0.1:8000/api/v1/user/3/?username=aregee\&api_key=notebook;
+     curl --dump-header - -H "Content-Type:application/json" http://127.0.0.1:8000/api/v1/user/
      
 
 
