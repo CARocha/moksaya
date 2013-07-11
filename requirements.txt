@@ -15,12 +15,11 @@ South
 
 Pillow==2.0.0
 
-#Django-forkit for forking project models
+#Fabric 
 
-#django-forkit
+Fabric==1.6.1
 
-
-#phileo a liking app 
+#Phileo a liking app 
 
 phileo
 

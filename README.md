@@ -36,6 +36,24 @@ http://django-tastypie.readthedocs.org/en/latest/authentication.html#apikeyauthe
 Tastypie seperates the authentication and authorization pretty neatly ,I am using DjangoAuthorization class from tastypie.authorization.This class provides the authenticated user to access the areas of the application for which they are authorized in django user permission.
  
 
+###Test:
+
+After setting up the project for the first time , please login to 127.0.0.1/<port>/admin and setup the the api_key for the super user.
+Next thing you need to do is to edit thhe fabfile
+     
+     user = "aregee"
+     #Provide the username you used while setting up the project.
+     key =  "notebook"
+     #Add the api_key that you createdd in the admin 
+
+Now , this fabric script would test basic use cases for the project using curl.Fabric is included in the dependencies so just open a new terminal to the root of project
+
+    
+    $ fab test
+
+
+Uppon successful completation , you woul find a project forked to super users profile.
+   
 
 
 ###Interacting with the APIs :

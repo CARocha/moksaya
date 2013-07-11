@@ -1,7 +1,10 @@
 from fabric.api import *
 
 user = "aregee"
+#Provide the username you used while setting up the project.
 key =  "notebook"
+#Add the api_key that you createdd in the admin 
+
 
 
 def createUser():

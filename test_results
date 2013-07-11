@@ -1,0 +1,281 @@
+HTTP/1.0 201 CREATED
+Date: Thu, 11 Jul 2013 21:44:02 GMT
+Server: WSGIServer/0.1 Python/2.7.3
+Vary: Accept, Accept-Language, Cookie
+X-Frame-Options: SAMEORIGIN
+Content-Type: text/html; charset=utf-8
+Location: http://127.0.0.1:8000/api/v1/profile/1/
+Content-Language: en-us
+
+{
+    "about_me": "Hello I am aregee", 
+    "friends": [], 
+    "id": 1, 
+    "language": "en", 
+    "location": "", 
+    "mugshot": null, 
+    "privacy": "registered", 
+    "projects": [], 
+    "resource_uri": "/api/v1/profile/1/", 
+    "user": "aregee", 
+    "website": ""
+}HTTP/1.0 201 CREATED
+Date: Thu, 11 Jul 2013 21:44:03 GMT
+Server: WSGIServer/0.1 Python/2.7.3
+Vary: Accept, Accept-Language, Cookie
+X-Frame-Options: SAMEORIGIN
+Content-Type: text/html; charset=utf-8
+Location: http://127.0.0.1:8000/api/v1/user/2/
+Content-Language: en-us
+
+HTTP/1.0 200 OK
+Date: Thu, 11 Jul 2013 21:44:03 GMT
+Server: WSGIServer/0.1 Python/2.7.3
+Vary: Accept, Accept-Language, Cookie
+X-Frame-Options: SAMEORIGIN
+Content-Type: application/json
+Content-Language: en-us
+Cache-Control: no-cache
+
+{
+    "date_joined": "2013-07-11T16:44:02.997197", 
+    "first_name": "", 
+    "id": 2, 
+    "last_login": "2013-07-11T16:44:02.997189", 
+    "last_name": "", 
+    "resource_uri": "/api/v1/user/2/", 
+    "username": "spock"
+}HTTP/1.0 201 CREATED
+Date: Thu, 11 Jul 2013 21:44:03 GMT
+Server: WSGIServer/0.1 Python/2.7.3
+Vary: Accept, Accept-Language, Cookie
+X-Frame-Options: SAMEORIGIN
+Content-Type: text/html; charset=utf-8
+Location: http://127.0.0.1:8000/api/v1/profile/2/
+Content-Language: en-us
+
+{
+    "about_me": "Hello I am Spock", 
+    "friends": [], 
+    "id": 2, 
+    "language": "en", 
+    "location": "", 
+    "mugshot": null, 
+    "privacy": "registered", 
+    "projects": [], 
+    "resource_uri": "/api/v1/profile/2/", 
+    "user": "spock", 
+    "website": ""
+}HTTP/1.0 201 CREATED
+Date: Thu, 11 Jul 2013 21:44:03 GMT
+Server: WSGIServer/0.1 Python/2.7.3
+Vary: Accept, Accept-Language, Cookie
+X-Frame-Options: SAMEORIGIN
+Content-Type: text/html; charset=utf-8
+Location: http://127.0.0.1:8000/api/v1/projects/1/
+Content-Language: en-us
+
+{
+    "about_me": "Hello I am Spock", 
+    "friends": [], 
+    "id": 2, 
+    "language": "en", 
+    "location": "", 
+    "mugshot": null, 
+    "privacy": "registered", 
+    "projects": [
+        {
+            "Likes": 0, 
+            "comment": [], 
+            "desc": "Spock created objects with javascript", 
+            "history": "", 
+            "id": 1, 
+            "owner": "spock", 
+            "resource_uri": "/api/v1/projects/1/", 
+            "screenshot": "/home/aregee/img_screen.jpg", 
+            "shared_date": "2013-07-11T16:44:03.314937", 
+            "src": "/media/projects/objects.js", 
+            "title": "Spocks first Project", 
+            "user": "/api/v1/profile/2/"
+        }
+    ], 
+    "resource_uri": "/api/v1/profile/2/", 
+    "user": "spock", 
+    "website": ""
+}{
+    "Likes": 0, 
+    "comment": [], 
+    "desc": "Spock created objects with javascript", 
+    "history": "", 
+    "id": 1, 
+    "owner": "spock", 
+    "resource_uri": "/api/v1/projects/1/", 
+    "screenshot": "/home/aregee/img_screen.jpg", 
+    "shared_date": "2013-07-11T16:44:03.314937", 
+    "src": "/media/projects/objects.js", 
+    "title": "Spocks first Project", 
+    "user": "/api/v1/profile/2/"
+}{
+    "desc": "Spock created objects with javascript", 
+    "history": "project Spocks first Project  created by spock forked by aregee ", 
+    "resource_uri": "/api/v1/forking/1/", 
+    "screenshot": "/home/aregee/img_screen.jpg", 
+    "shared_date": "2013-07-11T16:44:03.314937", 
+    "src": "/media/projects/objects.js", 
+    "title": "Spocks first Project"
+}{
+    "about_me": "Hello I am aregee", 
+    "friends": [], 
+    "id": 1, 
+    "language": "en", 
+    "location": "", 
+    "mugshot": null, 
+    "privacy": "registered", 
+    "projects": [
+        {
+            "Likes": 0, 
+            "comment": [], 
+            "desc": "Spock created objects with javascript", 
+            "history": "project Spocks first Project  created by spock forked by aregee ", 
+            "id": 2, 
+            "owner": "aregee", 
+            "resource_uri": "/api/v1/projects/2/", 
+            "screenshot": "/home/aregee/img_screen.jpg", 
+            "shared_date": "2013-07-11T16:44:03.508282", 
+            "src": "/media/projects/objects.js", 
+            "title": "Spocks first Project", 
+            "user": "/api/v1/profile/1/"
+        }
+    ], 
+    "resource_uri": "/api/v1/profile/1/", 
+    "user": "aregee", 
+    "website": ""
+}HTTP/1.0 204 NO CONTENT
+Date: Thu, 11 Jul 2013 21:44:03 GMT
+Server: WSGIServer/0.1 Python/2.7.3
+Vary: Accept, Accept-Language, Cookie
+X-Frame-Options: SAMEORIGIN
+Content-Type: text/html; charset=utf-8
+Content-Length: 0
+Content-Language: en-us
+
+{
+    "about_me": "Hello I am Spock", 
+    "friends": [], 
+    "id": 2, 
+    "language": "en", 
+    "location": "", 
+    "mugshot": null, 
+    "privacy": "registered", 
+    "projects": [], 
+    "resource_uri": "/api/v1/profile/2/", 
+    "user": "spock", 
+    "website": ""
+}HTTP/1.0 204 NO CONTENT
+Date: Thu, 11 Jul 2013 21:44:03 GMT
+Server: WSGIServer/0.1 Python/2.7.3
+Vary: Accept, Accept-Language, Cookie
+X-Frame-Options: SAMEORIGIN
+Content-Type: text/html; charset=utf-8
+Content-Length: 0
+Content-Language: en-us
+
+HTTP/1.0 204 NO CONTENT
+Date: Thu, 11 Jul 2013 21:44:04 GMT
+Server: WSGIServer/0.1 Python/2.7.3
+Vary: Accept, Accept-Language, Cookie
+X-Frame-Options: SAMEORIGIN
+Content-Type: text/html; charset=utf-8
+Content-Length: 0
+Content-Language: en-us
+
+{
+    "meta": {
+        "limit": 20, 
+        "next": null, 
+        "offset": 0, 
+        "previous": null, 
+        "total_count": 1
+    }, 
+    "objects": [
+        {
+            "about_me": "Hello I am aregee", 
+            "friends": [], 
+            "id": 1, 
+            "language": "en", 
+            "location": "", 
+            "mugshot": null, 
+            "privacy": "registered", 
+            "projects": [
+                {
+                    "Likes": 0, 
+                    "comment": [], 
+                    "desc": "Spock created objects with javascript", 
+                    "history": "project Spocks first Project  created by spock forked by aregee ", 
+                    "id": 2, 
+                    "owner": "aregee", 
+                    "resource_uri": "/api/v1/projects/2/", 
+                    "screenshot": "/home/aregee/img_screen.jpg", 
+                    "shared_date": "2013-07-11T16:44:03.508282", 
+                    "src": "/media/projects/objects.js", 
+                    "title": "Spocks first Project", 
+                    "user": "/api/v1/profile/1/"
+                }
+            ], 
+            "resource_uri": "/api/v1/profile/1/", 
+            "user": "aregee", 
+            "website": ""
+        }
+    ]
+}If you see Spocks project in your Profile which you forked then +1
+Okay first We need to create a Profile for aregee 
+
+[localhost] local: curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/user/1/" , "about_me":"Hello I am aregee" }' http://127.0.0.1:8000/api/v1/profile/?username=aregee\&api_key=notebook
+Lets GET the aregee's Profile 
+
+[localhost] local: curl http://127.0.0.1:8000/api/v1/profile/1/?username=aregee\&api_key=notebook
+Now we will create a user named Spock using POST request 
+
+[localhost] local: curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"username":"spock","password":"notebook"}' http://127.0.0.1:8000/api/v1/user/?username=aregee\&api_key=notebook
+Lets GET the Spocks user details 
+
+[localhost] local: curl --dump-header - -H "Content-Type:application/json"-X http://127.0.0.1:8000/api/v1/user/2/?username=aregee\&api_key=notebook
+Creating a  Profile for SPOCK 
+
+[localhost] local: curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/user/2/" , "about_me":"Hello I am Spock" }' http://127.0.0.1:8000/api/v1/profile/?username=aregee\&api_key=notebook
+Now GET  Profile for SPOCK
+
+[localhost] local: curl http://127.0.0.1:8000/api/v1/profile/2/?username=aregee\&api_key=notebook
+Spock has no projects , so lets POST a project for him 
+
+[localhost] local: curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/profile/2/" ,"title":"Spocks first Project" , "desc":"Spock created objects with javascript" , "src":"projects/objects.js","screenshot":"/home/aregee/img_screen.jpg" }' http://127.0.0.1:8000/api/v1/projects/?username=aregee\&api_key=notebook
+Now GET  Profile for SPOCK
+
+[localhost] local: curl http://127.0.0.1:8000/api/v1/profile/2/?username=aregee\&api_key=notebook
+We can directly access the projects by making GET request to the Resource URI of the project
+
+[localhost] local: curl http://127.0.0.1:8000/api/v1/projects/1/?username=aregee\&api_key=notebook
+ %s is logged in as a super user so lets fork Spocks work to their portfolio
+
+[localhost] local: curl http://127.0.0.1:8000/api/v1/forking/1/?username=aregee\&api_key=notebook
+Lets take a look at the aregee Profile again 
+
+Lets GET the aregee's Profile 
+
+[localhost] local: curl http://127.0.0.1:8000/api/v1/profile/1/?username=aregee\&api_key=notebook
+We can DELETE the Spocks only project by making a delete request to Projects URI 
+
+[localhost] local: curl --dump-header - -H "Content-Type:application/json" -X DELETE http://127.0.0.1:8000/api/v1/projects/1/?username=aregee\&api_key=notebook
+Now GET  Profile for SPOCK
+
+[localhost] local: curl http://127.0.0.1:8000/api/v1/profile/2/?username=aregee\&api_key=notebook
+We can DELETE the Spock's Profile by  making a delete request to Profile URI 
+
+[localhost] local: curl --dump-header - -H "Content-Type:application/json" -X DELETE http://127.0.0.1:8000/api/v1/profile/2/?username=aregee\&api_key=notebook;
+We can DELETE the Spock from user database as well 
+
+[localhost] local:  curl --dump-header - -H "Content-Type:application/json" -X DELETE http://127.0.0.1:8000/api/v1/user/2/?username=aregee\&api_key=notebook
+[localhost] local: curl http://127.0.0.1:8000/api/v1/profile/?username=aregee\&api_key=notebook
+[localhost] local: echo If you see Spocks project in your Profile which you forked then +1  
+
+Done.

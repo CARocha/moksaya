@@ -34,7 +34,7 @@ class UserResource(ModelResource):
         serializer = PrettyJSONSerializer()
         excludes = []
         authorization = DjangoAuthorization()
-        #authentication = ApiKeyAuthentication()
+        authentication = ApiKeyAuthentication()
         list_allowed_methods = ['post','get']
         resource_name = 'user'
         excludes = ['email', 'password', 'is_active', 'is_staff', 'is_superuser']
