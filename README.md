@@ -46,7 +46,7 @@ Next thing you need to do is to edit thhe fabfile
 Now , this fabric script would test basic use cases for the project using curl.Fabric is included in the dependencies so just open a new terminal to the root of project:
 
      $source ../ENV/bin/activate
-     $(ENV)fab test
+     (ENV)$fab test
 
 
 Uppon successful completation , you woul find a project forked to super users profile.
