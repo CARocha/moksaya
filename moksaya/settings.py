@@ -55,7 +55,7 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'public/static/')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'demo/static/'),
+    os.path.join(PROJECT_ROOT, 'moksaya/static/'),
 )
 
 # List of finder classes that know how to find static files in
