@@ -6,6 +6,13 @@ key =  "notebook"
 #Add the api_key that you createdd in the admin 
 
 
+def setup():
+    local("python manage.py syncdb")
+    local("python manage.py migrate")
+
+def start():
+    local("python manage.py runserver")
+
 
 def createUser():
     

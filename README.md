@@ -13,11 +13,10 @@ Creating a restful interface to moksaya and the website/front end would be a cli
     $python manage.py runserver
 
 ###TODO:
-	1: Write Test Cases 
-	2: CRUD operation for likes 	   
-	3: CRUD functionality for Friends
-	4: Write Fabric Script to automate setup and deployment of the project 
-	5: Hook up auto create api keys fucntionality 
+	1: CRUD operation for likes 	   
+	2: CRUD functionality for Friends
+	3: Write Fabric Script to automate setup and deployment of the project 
+	4: Hook up auto create api keys fucntionality 
 
 ###Authentication:
 I am using the ApiKeyAuthentication class offered by the django-tastypie, so in order to set this up once you have setup the project login to 127.0.0.1:<port>/admin and  login with the super user you created while setting up the project.You will find Tastypie app with Api keys model.Select it and add api key for desired user.
