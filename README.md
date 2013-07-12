@@ -7,16 +7,14 @@ Creating a restful interface to moksaya and the website/front end would be a cli
 ###Setup:
     $virtualenv ../ENV
     $source ../ENV/bin/activate
-    $pip install -r requirements.txt
-    $python manage.py syncdb
-    $python manage.py migrate	
-    $python manage.py runserver
+    (ENV)$pip install -r requirements.txt
+    (ENV)$fab setup start
+    
 
 ###TODO:
 	1: CRUD operation for likes 	   
 	2: CRUD functionality for Friends
-	3: Write Fabric Script to automate setup and deployment of the project 
-	4: Hook up auto create api keys fucntionality 
+	3: Hook up auto create api keys fucntionality 
 
 ###Authentication:
 I am using the ApiKeyAuthentication class offered by the django-tastypie, so in order to set this up once you have setup the project login to 127.0.0.1:<port>/admin and  login with the super user you created while setting up the project.You will find Tastypie app with Api keys model.Select it and add api key for desired user.
@@ -45,10 +43,10 @@ Next thing you need to do is to edit thhe fabfile
      key =  "notebook"
      #Add the api_key that you createdd in the admin 
 
-Now , this fabric script would test basic use cases for the project using curl.Fabric is included in the dependencies so just open a new terminal to the root of project
+Now , this fabric script would test basic use cases for the project using curl.Fabric is included in the dependencies so just open a new terminal to the root of project:
 
-    
-    $ fab test
+     $source ../ENV/bin/activate
+     $(ENV)fab test
 
 
 Uppon successful completation , you woul find a project forked to super users profile.
