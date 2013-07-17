@@ -14,7 +14,8 @@ Creating a restful interface to moksaya and the website/front end would be a cli
 ###TODO:
 	1: CRUD operation for likes 	   
 	2: CRUD functionality for Friends
-	3: Hook up auto create api keys fucntionality 
+	3: Create an API which will require every user to authenticate and every user will be working only with objects associated with them.
+	4: Hook up auto create api keys fucntionality 
 
 ###Authentication:
 I am using the ApiKeyAuthentication class offered by the django-tastypie, so in order to set this up once you have setup the project login to 127.0.0.1:<port>/admin and  login with the super user you created while setting up the project.You will find Tastypie app with Api keys model.Select it and add api key for desired user.
