@@ -9,7 +9,7 @@ from profiles.forms import SignupFormExtra
 from django.contrib import admin
 admin.autodiscover()
 
-from profiles.api import ProfileResource , ProjectResource , LikeResource , ForkResource , UserResource 
+from profiles.api import *
 from tastypie.api import Api
 
 v1_api = Api(api_name='v1')
@@ -18,7 +18,7 @@ v1_api.register(ProfileResource())
 v1_api.register(LikeResource())
 v1_api.register(UserResource())
 v1_api.register(ForkResource())
-#v1_api.register(MoksayaResource())
+v1_api.register(SignupResource())
 
 
 

@@ -17,15 +17,15 @@ def start():
 def createUser():
     
     print("\nNow we will create a user named Spock using POST request \n")
-    local("""curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"username":"spock","password":"notebook"}' http://127.0.0.1:8000/api/v1/user/?username=%s\&api_key=%s""" % (user,key))
+    local("""curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"username":"spock","password":"notebook"}' http://127.0.0.1:8000/api/v1/register/""" )
 
 def checkUser():
     print("\nLets GET the Spocks user details \n")
-    local("""curl --dump-header - -H "Content-Type:application/json"-X http://127.0.0.1:8000/api/v1/user/2/?username=%s\&api_key=%s""" % (user,key))
+    local("""curl --dump-header - -H "Content-Type:application/json"-X http://127.0.0.1:8000/api/v1/user/spock/?username=%s\&api_key=%s""" % (user,key))
 
 def createProfile():
     print("\nCreating a  Profile for SPOCK \n")
-    local("""curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/user/2/" , "about_me":"Hello I am Spock" }' http://127.0.0.1:8000/api/v1/profile/?username=%s\&api_key=%s""" % (user,key))
+    local("""curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/user/spock/" , "about_me":"Hello I am Spock" }' http://127.0.0.1:8000/api/v1/profile/?username=%s\&api_key=%s""" % (user,key))
 
 def checkProfile():
     print("\nNow GET  Profile for SPOCK\n")
@@ -34,7 +34,7 @@ def checkProfile():
 
 def createProject():
     print("\nSpock has no projects , so lets POST a project for him \n")
-    local("""curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/profile/2/" ,"title":"Spocks first Project" , "desc":"Spock created objects with javascript" , "src":"projects/objects.js","screenshot":"projects/img_screen.png" }' http://127.0.0.1:8000/api/v1/projects/?username=%s\&api_key=%s""" % (user,key))
+    local("""curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/profile/2/" ,"title":"Spocks first Project" , "desc":"Spock created objects with javascript" , "src":"@projects/objects.js","screenshot":"@projects/img_screen.png" }' http://127.0.0.1:8000/api/v1/projects/?username=%s\&api_key=%s""" % (user,key))
    
     checkProfile()
 
@@ -53,7 +53,7 @@ def forkProject():
 
 def createMyprofile():
     print("\nOkay first We need to create a Profile for %s \n" % (user))
-    local("""curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/user/1/" , "about_me":"Hello I am %s" }' http://127.0.0.1:8000/api/v1/profile/?username=%s\&api_key=%s""" % (user,user,key))
+    local("""curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/user/aregee/" , "about_me":"Hello I am %s" }' http://127.0.0.1:8000/api/v1/profile/?username=%s\&api_key=%s""" % (user,user,key))
     
     myProfile()
     
@@ -76,7 +76,7 @@ def deleteProfile():
 
 def deleteUser():
     print("\nWe can DELETE the Spock from user database as well \n")
-    local(""" curl --dump-header - -H "Content-Type:application/json" -X DELETE http://127.0.0.1:8000/api/v1/user/2/?username=%s\&api_key=%s""" % (user,key))
+    local(""" curl --dump-header - -H "Content-Type:application/json" -X DELETE http://127.0.0.1:8000/api/v1/user/spock/?username=%s\&api_key=%s""" % (user,key))
 
 def allProfiles():
     

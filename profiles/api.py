@@ -11,6 +11,8 @@ from django.contrib.contenttypes.models import ContentType
 from phileo.models import *
 from tastypie.authorization import DjangoAuthorization
 from tastypie.authentication import BasicAuthentication ,ApiKeyAuthentication
+from tastypie.authorization import Authorization
+from tastypie.authentication import Authentication
 
 class PrettyJSONSerializer(Serializer): 
     json_indent = 4 
@@ -28,12 +30,47 @@ class PrettyJSONSerializer(Serializer):
 
         return data
 
+    
+
+
+class MultipartResource(object):
+    def deserialize(self, request, data, format=None):
+        if not format:
+            format = request.META.get('CONTENT_TYPE', 'application/json')
+        if format == 'application/x-www-form-urlencoded':
+            return request.POST
+        if format.startswith('multipart'):
+            data = request.POST.copy()
+            data.update(request.FILES)
+            return data
+        return super(MultipartResource, self).deserialize(request, data, format)
+
+class SignupResource(ModelResource):
+    class Meta:
+        allowed_methods = ['post']
+        object_class = User
+        include_resource_uri = False
+        fields = ['username']
+        resource_name='register'
+        authorization = Authorization()
+        authentication = Authentication()
+
+    def obj_create(self, bundle,request=None, **kwargs):
+         username, password = bundle.data['username'], bundle.data['password']
+         try:
+             bundle.obj = User.objects.create_user(username,'',password)
+         except IntegrityError:
+             raise BadRequest('That username already exist')
+         return bundle
+
+       
+
 class UserResource(ModelResource):
     class Meta:
         queryset = User.objects.all()
         serializer = PrettyJSONSerializer()
         excludes = []
-        authorization = DjangoAuthorization()
+        authorization = Authorization()
         authentication = ApiKeyAuthentication()
         list_allowed_methods = ['post','get']
         resource_name = 'user'
@@ -43,10 +80,10 @@ class UserResource(ModelResource):
         }
 
         include_resoure_uri = True
-#    def prepend_urls(self):
-#        return [
-#            url(r"^(?P<resource_name>%s)/(?P<username>[\w\d_.-]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
-#        ]
+    def prepend_urls(self):
+        return [
+            url(r"^(?P<resource_name>%s)/(?P<username>[\w\d_.-]+)/$" % self._meta.resource_name, self.wrap_view('dispatch_detail'), name="api_dispatch_detail"),
+        ]
 
 
 
@@ -62,8 +99,7 @@ class ForkResource(ModelResource):
         list_allowed_methods = ['post','put','get','delete']
         resource_name = 'forking'
         include_resoure_uri = True
-        authorization = DjangoAuthorization()
-        #authentication = BasicAuthentication()
+        authorization = Authorization()
         authentication = ApiKeyAuthentication()
     
     def dehydrate(self, bundle):
@@ -100,8 +136,8 @@ class LikeResource(ModelResource):
         excludes = ['id','receiver_object_id']
         resource_name = 'liking'
         include_resoure_uri = True
-        authentication = BasicAuthentication()
-        authorization = DjangoAuthorization()
+        authentication = Authentication()
+        authorization = Authorization()
     def dehydrate(self, bundle):
         
         likes = Like.objects.filter(receiver_content_type=ContentType.objects.get_for_model(Project) , receiver_object_id=bundle.obj.id).count ()
@@ -118,17 +154,18 @@ class CommentResource(ModelResource):
         serializer = PrettyJSONSerializer()
         excludes = ['id' ,'resource_uri','entry']
         incldue_resource_uri = True
-        authorization = DjangoAuthorization()
-        authentication = BasicAuthentication()
+        authorization = Authorization()
+        authentication = Authentication()
 
     def dehydrate(self, bundle):
         bundle.data["entry"] = bundle.obj.entry
         return bundle
 
-class ProjectResource(ModelResource):
+class ProjectResource(MultipartResource, ModelResource):
     user = fields.ForeignKey('profiles.api.ProfileResource' ,'user')
     comment = fields.ToManyField('profiles.api.CommentResource','comment', full=True, null=True) 
-    
+    src = fields.FileField(attribute="src", blank=True, null=True)
+    screenshot = fields.FileField(attribute="screenshot", blank=True, null=True)
     class Meta:
         queryset = Project.objects.all()
         serializer = PrettyJSONSerializer()
@@ -136,7 +173,7 @@ class ProjectResource(ModelResource):
         excludes = []
         list_allowed_methods = ['post','get','delete','put']
         include_resource_uri = True
-        authorization = DjangoAuthorization()
+        authorization = Authorization()
         authentication = ApiKeyAuthentication()
 
     def dehydrate(self, bundle):
@@ -159,16 +196,16 @@ class ProfileResource(ModelResource):
         queryset = Profile.objects.all()
         serializer = PrettyJSONSerializer()
         resource_name = 'profile'
-        excludes = ['gender','birth_date']
+        excludes = ['gender','birth_date','website']
         include_resource_uri = True
         list_allowed_methods = ['post','delete','get','put']
-        authorization = DjangoAuthorization()
+        authorization = Authorization()
         authentication = ApiKeyAuthentication()
+        
+    
     def dehydrate(self, bundle):
         bundle.data["user"] = bundle.obj.user
         all_friends = Friend.objects.friends(bundle.obj.user)
         bundle.data["friends"] = all_friends
         return bundle
 
-
-  
