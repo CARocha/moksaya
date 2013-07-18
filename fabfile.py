@@ -34,7 +34,7 @@ def checkProfile():
 
 def createProject():
     print("\nSpock has no projects , so lets POST a project for him \n")
-    local("""curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/profile/2/" ,"title":"Spocks first Project" , "desc":"Spock created objects with javascript" , "src":"@projects/objects.js","screenshot":"@projects/img_screen.png" }' http://127.0.0.1:8000/api/v1/projects/?username=%s\&api_key=%s""" % (user,key))
+    local("""curl -F "user=/api/v1/profile/2/" -F "title=Spocks first Project" -F "desc=Spock created objects with javascript" -F "src=@projects/objects.js" -F "screenshot=@projects/img_screen.png" http://127.0.0.1:8000/api/v1/projects/?username=%s\&api_key=%s""" % (user,key))
    
     checkProfile()
 

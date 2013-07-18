@@ -1,4 +1,5 @@
 from django.core.serializers import json 
+from tastypie.exceptions import Unauthorized
 from django.utils import simplejson 
 from tastypie.serializers import Serializer 
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
@@ -13,6 +14,8 @@ from tastypie.authorization import DjangoAuthorization
 from tastypie.authentication import BasicAuthentication ,ApiKeyAuthentication
 from tastypie.authorization import Authorization
 from tastypie.authentication import Authentication
+from profiles.authorization import GuardianAuthorization
+
 
 class PrettyJSONSerializer(Serializer): 
     json_indent = 4 
@@ -30,20 +33,10 @@ class PrettyJSONSerializer(Serializer):
 
         return data
 
+
     
 
 
-class MultipartResource(object):
-    def deserialize(self, request, data, format=None):
-        if not format:
-            format = request.META.get('CONTENT_TYPE', 'application/json')
-        if format == 'application/x-www-form-urlencoded':
-            return request.POST
-        if format.startswith('multipart'):
-            data = request.POST.copy()
-            data.update(request.FILES)
-            return data
-        return super(MultipartResource, self).deserialize(request, data, format)
 
 class SignupResource(ModelResource):
     class Meta:
@@ -161,6 +154,26 @@ class CommentResource(ModelResource):
         bundle.data["entry"] = bundle.obj.entry
         return bundle
 
+
+class MultipartResource(object):
+    def deserialize(self, request, data, format=None):
+        if not format:
+            format = request.META.get('CONTENT_TYPE', 'application/json')
+        if format == 'application/x-www-form-urlencoded':
+            return request.POST
+        if format.startswith('multipart'):
+            data = request.POST.copy()
+            data.update(request.FILES)
+            return data
+        return super(MultipartResource, self).deserialize(request, data, format)
+
+    def put_detail(self, request, **kwargs):
+        if not hasattr(request, '_body'):
+            request._body = ''
+
+        return super(MultipartResource, self).put_detail(request, **kwargs)
+    
+
 class ProjectResource(MultipartResource, ModelResource):
     user = fields.ForeignKey('profiles.api.ProfileResource' ,'user')
     comment = fields.ToManyField('profiles.api.CommentResource','comment', full=True, null=True) 
@@ -168,12 +181,13 @@ class ProjectResource(MultipartResource, ModelResource):
     screenshot = fields.FileField(attribute="screenshot", blank=True, null=True)
     class Meta:
         queryset = Project.objects.all()
+        #fields = ('title','src')
         serializer = PrettyJSONSerializer()
         resource_name = 'projects'
         excludes = []
         list_allowed_methods = ['post','get','delete','put']
         include_resource_uri = True
-        authorization = Authorization()
+        authorization = Authorization()#UserAuthorization()
         authentication = ApiKeyAuthentication()
 
     def dehydrate(self, bundle):
