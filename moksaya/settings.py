@@ -154,7 +154,7 @@ LOGGING = {
 }
 
 PHILEO_LIKABLE_MODELS = {
-    "profiles.Model": {}  # can override default config settings for each model here
+    "profiles.Project": {}  # can override default config settings for each model here
 }
 # Needed for Django guardian
 ANONYMOUS_USER_ID = -1

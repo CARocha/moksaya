@@ -15,7 +15,7 @@ from tastypie.authentication import BasicAuthentication ,ApiKeyAuthentication
 from tastypie.authorization import Authorization
 from tastypie.authentication import Authentication
 from profiles.authorization import GuardianAuthorization
-
+from django.core.files.base import ContentFile
 
 class PrettyJSONSerializer(Serializer): 
     json_indent = 4 
@@ -109,6 +109,12 @@ class ForkResource(ModelResource):
             else:
                 cloned.id = None
                 cloned.user = Profile.objects.get(user = username)
+                new_file = ContentFile(cloned.src.read())
+                new_screen = ContentFile(cloned.screenshot.read())
+                new_file.name = cloned.src.name
+                new_screen.name = cloned.screenshot.name
+                cloned.screenshot = new_screen
+                cloned.src = new_file
                 changes = "project %s  created by %s forked by %s " % (cloned.title , creator, cloned.user)
                 cloned.history = changes
                 cloned.save()
