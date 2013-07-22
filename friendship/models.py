@@ -3,10 +3,10 @@ from django.conf import settings
 from django.db.models import Q
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
-
+from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-
+from profiles.models import * 
 from friendship.signals import friendship_request_created, \
     friendship_request_rejected, friendship_request_canceled, \
     friendship_request_viewed, friendship_request_accepted, \
@@ -370,10 +370,10 @@ class FollowingManager(models.Manager):
 
 class Follow(models.Model):
     """ Model to represent Following relationships """
-    follower = models.ForeignKey(AUTH_USER_MODEL, related_name='following')
-    followee = models.ForeignKey(AUTH_USER_MODEL, related_name='followers')
+    follower = models.ForeignKey(Profile, related_name='following')
+    followee = models.ForeignKey(Profile, related_name='followers')
     created = models.DateTimeField(default=timezone.now)
-
+    
     objects = FollowingManager()
 
     class Meta:

@@ -19,7 +19,7 @@ v1_api.register(LikeResource())
 v1_api.register(UserResource())
 v1_api.register(ForkResource())
 v1_api.register(SignupResource())
-
+v1_api.register(FollowingResource())
 
 
 

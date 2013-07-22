@@ -74,6 +74,13 @@ def deleteProfile():
     local("""curl --dump-header - -H "Content-Type:application/json" -X DELETE http://127.0.0.1:8000/api/v1/profile/2/?username=%s\&api_key=%s;""" % (user,key))
 
 
+def deleteMyProfile():
+    
+    print("\nWe can DELETE the SuperUser's Profile by  making a delete request to Profile URI \n")
+    local("""curl --dump-header - -H "Content-Type:application/json" -X DELETE http://127.0.0.1:8000/api/v1/profile/1/?username=%s\&api_key=%s;""" % (user,key))
+
+
+
 def deleteUser():
     print("\nWe can DELETE the Spock from user database as well \n")
     local(""" curl --dump-header - -H "Content-Type:application/json" -X DELETE http://127.0.0.1:8000/api/v1/user/spock/?username=%s\&api_key=%s""" % (user,key))
@@ -82,8 +89,10 @@ def allProfiles():
     
     local("""curl http://127.0.0.1:8000/api/v1/profile/?username=%s\&api_key=%s""" % (user,key))
 
-
-
+def relations():
+    local("""curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"follower":"/api/v1/profile/2/","followee":"/api/v1/profile/1/"}'  http://127.0.0.1:8000/api/v1/relations/?username=%s\&api_key=%s""" % (user,key))
+    
+    local("""curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"follower":"/api/v1/profile/1/","followee":"/api/v1/profile/2/"}'  http://127.0.0.1:8000/api/v1/relations/?username=%s\&api_key=%s""" % (user,key))
 
 def test():
     createMyprofile()
@@ -96,8 +105,9 @@ def test():
     forkProject()
     myProfile()
     deleteProject()
-    deleteProfile()
-    deleteUser()
+    relations()
+    ##deleteProfile()
+    #deleteUser()
     allProfiles()
     local("echo If you see Spocks project in your Profile which you forked then +1  ")
     
