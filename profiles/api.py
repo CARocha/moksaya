@@ -136,10 +136,29 @@ class LikeResource(ModelResource):
         likes = Like.objects.filter(receiver_content_type=ContentType.objects.get_for_model(Project) , receiver_object_id=bundle.obj.id).count ()
         bundle.data["Likes"] = likes
    
+        return bundle 
+
+class FollowingResource(ModelResource):
+    follower = fields.ToOneField(to='profiles.api.ProfileResource',attribute='follower',related_name="profile")           
+    followee = fields.ToOneField(to='profiles.api.ProfileResource',attribute='followee',related_name="profile")
+    class Meta:
+        allowed_methods = ['post','put','patch','delete','get']
+        queryset = Follow.objects.all()
+        serializer = PrettyJSONSerializer()
+        resource_name = "relations"
+        authorization = Authorization()
+        authentication = ApiKeyAuthentication()
+        include_resource_uri = False
+
+    def dehydrate(self, bundle):
+        bundle.data["user"] = bundle.obj.follower
+        qs = Follow.objects.filter(followee=bundle.obj.follower).all()
+        followers = [u.follower for u in qs] 
+        qs2 = Follow.objects.filter(follower=bundle.obj.follower).all()
+        following = [u.followee for u in qs2] 
+        bundle.data["followers"] = followers
+        bundle.data["following"] = following
         return bundle
-    
-    
-     
 
 class CommentResource(ModelResource):
     class Meta:
@@ -181,7 +200,6 @@ class ProjectResource(MultipartResource, ModelResource):
     screenshot = fields.FileField(attribute="screenshot", blank=True, null=True)
     class Meta:
         queryset = Project.objects.all()
-        #fields = ('title','src')
         serializer = PrettyJSONSerializer()
         resource_name = 'projects'
         excludes = []
@@ -219,7 +237,11 @@ class ProfileResource(ModelResource):
     
     def dehydrate(self, bundle):
         bundle.data["user"] = bundle.obj.user
-        all_friends = Friend.objects.friends(bundle.obj.user)
-        bundle.data["friends"] = all_friends
+        qs = Follow.objects.filter(followee=bundle.obj.user).all()
+        followers = [u.follower for u in qs] 
+        qs2 = Follow.objects.filter(follower=bundle.obj.user).all()
+        following = [u.followee for u in qs2] 
+        bundle.data["followers"] = followers
+        bundle.data["following"] = following
         return bundle
 

@@ -3,5 +3,5 @@ from django.contrib import admin
 
 admin.site.register(Project)
 admin.site.register(Comment)
-#admin.site.register(Moksaya)
+#admin.site.register(Follow)
 #admin.site.register(uProject)

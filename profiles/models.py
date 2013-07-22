@@ -4,7 +4,9 @@ from userena.models import UserenaLanguageBaseProfile,UserenaBaseProfile
 from userena.utils import user_model_label
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 import datetime
+
 
 class Profile(UserenaLanguageBaseProfile):
     """ Default profile """
@@ -45,7 +47,8 @@ class Profile(UserenaLanguageBaseProfile):
                 birthday = self.birth_date.replace(year=today.year, day=day)
                 if birthday > today: return today.year - self.birth_date.year - 1
             else: return today.year - self.birth_date.year
-        
+    def followers_count(self):
+        return self.user.who_is_followed.all().count()
 
 
 
@@ -64,10 +67,6 @@ class Project(models.Model):
           
       def __unicode__(self):
           return self.title
-
-
-
-
 
 
 class Comment(models.Model):
