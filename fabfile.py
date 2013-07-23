@@ -85,14 +85,28 @@ def deleteUser():
     print("\nWe can DELETE the Spock from user database as well \n")
     local(""" curl --dump-header - -H "Content-Type:application/json" -X DELETE http://127.0.0.1:8000/api/v1/user/spock/?username=%s\&api_key=%s""" % (user,key))
 
-def allProfiles():
-    
-    local("""curl http://127.0.0.1:8000/api/v1/profile/?username=%s\&api_key=%s""" % (user,key))
 
 def relations():
+    print("\nUsing RESTful interface to create follower followee relationship between users with POST ")
     local("""curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"follower":"/api/v1/profile/2/","followee":"/api/v1/profile/1/"}'  http://127.0.0.1:8000/api/v1/relations/?username=%s\&api_key=%s""" % (user,key))
     
     local("""curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"follower":"/api/v1/profile/1/","followee":"/api/v1/profile/2/"}'  http://127.0.0.1:8000/api/v1/relations/?username=%s\&api_key=%s""" % (user,key))
+
+def addlikes():
+    print("\nUsing RESTful interface to POST likes to the Projects")
+    local("""curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/profile/2/" ,"liked_content_type":"/api/v1/projects/2/" }' http://127.0.0.1:8000/api/v1/liking/?username=%s\&api_key=%s""" % (user,key))
+    local("""curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/profile/1/" ,"liked_content_type":"/api/v1/projects/2/" }' http://127.0.0.1:8000/api/v1/liking/?username=%s\&api_key=%s""" % (user,key))
+
+
+def addcomments():
+    print("\nUsing RESTful interface to POST comments to the Projects")
+    local("""curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/profile/1/","entry":"/api/v1/projects/2/" , "text":"Comment posted with REST" }' http://127.0.0.1:8000/api/v1/comment/?username=%s\&api_key=%s""" % (user,key))
+    local("""curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/profile/2/","entry":"/api/v1/projects/2/" , "text":"Yet another comment with REST" }' http://127.0.0.1:8000/api/v1/comment/?username=%s\&api_key=%s""" % (user,key))
+ 
+    
+def allProfiles():
+    print("\n Getting the list of all user profiles ")
+    local("""curl http://127.0.0.1:8000/api/v1/profile/?username=%s\&api_key=%s""" % (user,key))
 
 def test():
     createMyprofile()
@@ -104,11 +118,15 @@ def test():
     checkProject()
     forkProject()
     myProfile()
-    deleteProject()
     relations()
-    ##deleteProfile()
-    #deleteUser()
+    addlikes()
+    addcomments()
     allProfiles()
     local("echo If you see Spocks project in your Profile which you forked then +1  ")
     
 
+def clean():
+    deleteProject()
+    deleteProfile()
+    deleteUser()
+    deleteMyProfile()
