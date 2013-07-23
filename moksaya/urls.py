@@ -20,7 +20,7 @@ v1_api.register(UserResource())
 v1_api.register(ForkResource())
 v1_api.register(SignupResource())
 v1_api.register(FollowingResource())
-
+v1_api.register(CommentResource())
 
 
 urlpatterns = patterns('',
@@ -36,7 +36,7 @@ urlpatterns = patterns('',
     (r'^accounts/', include('userena.urls')),
     (r'^messages/', include('userena.contrib.umessages.urls')),
     url(r'^api/', include(v1_api.urls)),
-    url(r"^likes/", include("phileo.urls")),                   
+    #url(r"^likes/", include("phileo.urls")),                   
     #url(r'^api/', include(project_resource.urls)),
                        
     

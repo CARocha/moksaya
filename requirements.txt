@@ -19,7 +19,4 @@ Pillow==2.0.0
 
 Fabric==1.6.1
 
-#Phileo a liking app 
-
-phileo
 

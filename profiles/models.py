@@ -5,7 +5,6 @@ from userena.utils import user_model_label
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.core.exceptions import ValidationError
-from phileo.models import Like
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 import datetime
@@ -73,6 +72,7 @@ class Project(models.Model):
 
 
 class Comment(models.Model):
+      user = models.ForeignKey(Profile, related_name='commenter')
       entry = models.ForeignKey(Project,related_name='comment')
       text = models.CharField(max_length=500)
     
@@ -81,21 +81,16 @@ class Comment(models.Model):
 
 
         
-class Likes(models.Model):
-    #content_type = ContentType.objects.get_for_model(Project)
+class Like(models.Model):
+    
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(Profile , related_name="liking")
+    user = models.ForeignKey(Profile , related_name="likes")
     liked_content_type = models.ForeignKey(Project)
-    liked_object_id = models.PositiveIntegerField()
-    #liked = generic.GenericForeignKey(
-    #    ct_field="liked_content_type",
-    #    fk_field="liked_object_id"
-    #)
     shared_date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         unique_together = (
-            ("user","liked_content_type", "liked_object_id"),
+            ("user","liked_content_type"),
             )
 
     def __unicode__(self):

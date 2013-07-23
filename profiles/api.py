@@ -9,7 +9,6 @@ from profiles.models import *
 from django.contrib.auth.models import User
 from friendship.models import *
 from django.contrib.contenttypes.models import ContentType
-from phileo.models import *
 from tastypie.authorization import DjangoAuthorization
 from tastypie.authentication import BasicAuthentication ,ApiKeyAuthentication
 from tastypie.authorization import Authorization
@@ -129,20 +128,19 @@ class ForkResource(ModelResource):
 
 
 class LikeResource(ModelResource):
+    user = fields.ToOneField(to='profiles.api.ProfileResource',attribute='user',related_name="profile")           
+    liked_content_type = fields.ToOneField(to='profiles.api.ProjectResource',attribute='liked_content_type',related_name="projects")
+    
     class Meta:
         queryset = Like.objects.all()
         serializer = PrettyJSONSerializer()
         excludes = ['id','receiver_object_id']
         resource_name = 'liking'
         include_resoure_uri = True
-        authentication = Authentication()
+        authentication = ApiKeyAuthentication()
         authorization = Authorization()
-    def dehydrate(self, bundle):
-        
-        likes = Like.objects.filter(receiver_content_type=ContentType.objects.get_for_model(Project) , receiver_object_id=bundle.obj.id).count ()
-        bundle.data["Likes"] = likes
-   
-        return bundle 
+    
+  
 
 class FollowingResource(ModelResource):
     follower = fields.ToOneField(to='profiles.api.ProfileResource',attribute='follower',related_name="profile")           
@@ -167,16 +165,20 @@ class FollowingResource(ModelResource):
         return bundle
 
 class CommentResource(ModelResource):
+    user = fields.ToOneField(to='profiles.api.ProfileResource',attribute='user',related_name="profile")           
+    entry = fields.ToOneField(to='profiles.api.ProjectResource',attribute='entry',related_name="projects")
     class Meta:
         queryset = Comment.objects.all()
         serializer = PrettyJSONSerializer()
-        excludes = ['id' ,'resource_uri','entry']
-        incldue_resource_uri = True
+        excludes = ['id' ,'resource_uri']
+        resource_name="comment"
+        incldue_resource_uri = False
         authorization = Authorization()
-        authentication = Authentication()
+        authentication = ApiKeyAuthentication()
 
     def dehydrate(self, bundle):
         bundle.data["entry"] = bundle.obj.entry
+        bundle.data["user"] = bundle.obj.user
         return bundle
 
 
@@ -216,9 +218,9 @@ class ProjectResource(MultipartResource, ModelResource):
 
     def dehydrate(self, bundle):
         
-        bundle.data["owner"] = bundle.obj.user
+        bundle.data["user"] = bundle.obj.user
         bundle.data["history"] = bundle.obj.history
-        likes = Like.objects.filter(receiver_content_type=ContentType.objects.get_for_model(Project) , receiver_object_id=bundle.obj.id).count ()
+        likes = Like.objects.filter(liked_content_type=Project.objects.get(pk=bundle.obj.id)).count ()
         bundle.data["Likes"] = likes
     
         return bundle 
