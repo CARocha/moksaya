@@ -126,6 +126,7 @@ INSTALLED_APPS = (
     'project',
     'tastypie',
     'friendship',
+    'haystack',
 )
 
 LOGGING = {
@@ -157,3 +158,12 @@ ANONYMOUS_USER_ID = -1
 
 # Test runner
 TEST_RUNNER = 'django.test.simple.DjangoTestSuiteRunner'
+
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}

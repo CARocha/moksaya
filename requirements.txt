@@ -19,4 +19,8 @@ Pillow==2.0.0
 
 Fabric==1.6.1
 
+#Django Haystack and pyelasticsearch
 
+django-haystack==2.0.0 
+
+pyelasticsearch==0.5
