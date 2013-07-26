@@ -1,13 +1,14 @@
-import datetime
+#import datetime
 from haystack import indexes 
 from profiles.models import *
 
 class ProjectIndex(indexes.SearchIndex, indexes.Indexable):
-    owner = indexes.CharField(model_attr="user")
+    text = indexes.CharField(document=True, use_template=True)
     titled = indexes.CharField(model_attr="title")
     info = indexes.CharField(model_attr="desc")
+    commits = indexes.CharField(model_attr="history")
     #pub_date = indexes.DateTimeField(model_attr="shared_date")
-    text = indexes.CharField(document=True, use_template=True)
+
 
     def get_model(self):
         return Project

@@ -5,7 +5,6 @@ from tastypie.serializers import Serializer
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 from django.conf.urls.defaults import *
-from profiles.models import *
 from django.contrib.auth.models import User
 from friendship.models import *
 from django.contrib.contenttypes.models import ContentType
@@ -19,6 +18,7 @@ from django.core.paginator import Paginator, InvalidPage
 from django.http import Http404
 from haystack.query import SearchQuerySet
 from tastypie.utils import trailing_slash
+from profiles.models import *
 
 class PrettyJSONSerializer(Serializer): 
     json_indent = 4 
@@ -97,7 +97,7 @@ class ForkResource(ModelResource):
         include_resoure_uri = True
         authorization = Authorization()
         authentication = ApiKeyAuthentication()
-    
+       
     def dehydrate(self, bundle):
         pro_id = int(bundle.obj.id)
         username = bundle.request.user
@@ -138,6 +138,7 @@ class LikeResource(ModelResource):
     class Meta:
         queryset = Like.objects.all()
         serializer = PrettyJSONSerializer()
+        allowed_methods=['get','post','delete']
         excludes = ['id','receiver_object_id']
         resource_name = 'liking'
         include_resoure_uri = True
@@ -240,7 +241,6 @@ class ProjectResource(MultipartResource, ModelResource):
             raise Http404("Sorry, no results on that page.")
 
         objects = []
-
         for result in page.object_list:
             bundle = self.build_bundle(obj=result.object, request=request)
             bundle = self.full_dehydrate(bundle)
@@ -251,7 +251,8 @@ class ProjectResource(MultipartResource, ModelResource):
         }
 
         self.log_throttled_access(request)
-        return self.create_response(request, object_list)
+        return self.create_response(request, object_list)  
+   
     def dehydrate(self, bundle):
         
         bundle.data["user"] = bundle.obj.user
@@ -260,9 +261,6 @@ class ProjectResource(MultipartResource, ModelResource):
         bundle.data["Likes"] = likes
     
         return bundle 
-
-
-
 
 class ProfileResource(ModelResource):
     projects = fields.ToManyField('profiles.api.ProjectResource','ussr', full=True, null=True)
@@ -274,10 +272,9 @@ class ProfileResource(ModelResource):
         resource_name = 'profile'
         excludes = ['gender','birth_date','website']
         include_resource_uri = True
-        list_allowed_methods = ['post','delete','get','put']
+        #list_allowed_methods = ['post','delete','get','put','patch']
         authorization = Authorization()
         authentication = ApiKeyAuthentication()
-        
     
     def dehydrate(self, bundle):
         bundle.data["user"] = bundle.obj.user
