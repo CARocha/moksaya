@@ -2,13 +2,13 @@ from fabric.api import *
 
 user = "aregee"
 #Provide the username you used while setting up the project.
-key =  "07f2aa31e451115a059fcb029bea7003ab12edc6"
+key =  "92982da5f523b6653850680a59f3f67c536cd0c6"
 #Add the api_key that you createdd in the admin 
 
 
 def setup():
 
-    local("python manage.py syncdb")
+    local("python manage.py syncdb --noinput")
     local("python manage.py migrate")
 
 def update_search():

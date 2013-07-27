@@ -10,8 +10,10 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 import datetime
 
-
-models.signals.post_save.connect(create_api_key, sender=User)
+try:
+    models.signals.post_save.connect(create_api_key, sender=User)
+except Exception, e:
+    pass
 
 
 class Profile(UserenaLanguageBaseProfile):
@@ -37,6 +39,8 @@ class Profile(UserenaLanguageBaseProfile):
     about_me = models.TextField(_('about me'), blank=True)
     def __unicode__(self):
         return self.user.username
+    
+    
 
 
     @property
