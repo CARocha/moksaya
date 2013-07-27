@@ -13,7 +13,7 @@ Creating a restful interface to moksaya and the website/front end would be a cli
 ### Elasticsearch Backend :
    
 This is an experimental functionality  I have been playing around for a while, If you would like to setup the elastic search get the server here <http://www.elasticsearch.org/download/> 
-Furthermore I am using Django-haystack to integerate the elasticsearch with this project.You would have to specify Haystack Connection : 
+Furthermore I am using Django-haystack to integerate the elasticsearch with this project.You would have to specify Haystack Connection in the settings.py file : 
 
 	    HAYSTACK_CONNECTIONS = {
 	    'default': {
