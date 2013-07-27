@@ -2,7 +2,7 @@ from fabric.api import *
 
 user = "aregee"
 #Provide the username you used while setting up the project.
-key =  "92982da5f523b6653850680a59f3f67c536cd0c6"
+key =  "b621a010883163b125bb93cef9ed9d2eba5cf0e3"
 #Add the api_key that you createdd in the admin 
 
 

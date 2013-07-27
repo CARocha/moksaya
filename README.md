@@ -10,58 +10,6 @@ Creating a restful interface to moksaya and the website/front end would be a cli
     (ENV)$pip install -r requirements.txt
     (ENV)$fab setup start
 
-### Elasticsearch Backend :
-   
-This is an experimental functionality  I have been playing around for a while, If you would like to setup the elastic search get the server here <http://www.elasticsearch.org/download/> 
-Furthermore I am using Django-haystack to integerate the elasticsearch with this project.You would have to specify Haystack Connection in the settings.py file : 
-
-	    HAYSTACK_CONNECTIONS = {
-	    'default': {
-	    'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-	    'URL': 'http://127.0.0.1:9200/',# url to elasticsearch webserver 
-	    'INDEX_NAME': 'haystack',
-	    },
-	    }
- 
-Usage:
-
-	$(ENV)fab update_search # this maps to ./manage.py update_index command offered by haystack to push data into elasticsearch server
-
-	$curl --dump-header - -H "Authorization: ApiKey aregee:notebook" -X GET http://127.0.0.1:8000/api/v1/projects/search/?q=python
-	
-	
-	{
-	"objects": [
-        {
-        "Likes": 0,
-        "comment": [],
-        "desc": "This python script changes extension of all the media files in the directory so they are not skipped in a media scan",
-        "history": "project Gallery Lock   created by kirk forked by aregee ",
-        "id": 6,
-        "resource_uri": "/api/v1/projects/6/",
-        "screenshot": "/media/projects/img_screen_7_1.png",
-        "shared_date": "2013-07-26T20:26:20.275120",
-        "src": "/media/projects/file_rem_1_1.py",
-        "title": "Gallery Lock ",
-        "user": "aregee"
-        },
-        {
-        "Likes": 0,
-        "comment": [],
-        "desc": "This python script changes extension of all the media files in the directory so they are not skipped in a media scan",
-        "history": "",
-        "id": 3,
-        "resource_uri": "/api/v1/projects/3/",
-        "screenshot": "/media/projects/img_screen_7.png",
-        "shared_date": "2013-07-26T20:26:22.787545",
-        "src": "/media/projects/file_rem_1.py",
-        "title": "Gallery Lock  ++ ",
-        "user": "kirk"
-        }
-	]
-	}
-	
-
    
 
 ###TODO:
@@ -119,7 +67,9 @@ Now , this fabric script would test basic use cases for the project using curl.F
 
 
 Apart from fab test , you may try fab fabfile.py to get list of commands.
-This test cases covers primariliy three Basic Operations 
+This test cases covers primariliy these Basic Operations:
+
+
      * POST request to populate the data base < fab PostTest >
      * GET  request to retrive all the accessible json data feed < fab GetTest >
      * PATCH requst  ,we can use POST and PATCH interchangeably they and I find PATCH more comfortable thant PUT < fab PatchTest >
@@ -602,3 +552,57 @@ Lets delete the Spock from registered user as well:
      ]
      }
 
+
+
+
+### Elasticsearch Backend :
+   
+This is an experimental functionality  I have been playing around for a while, If you would like to setup the elastic search get the server here <http://www.elasticsearch.org/download/> 
+Furthermore I am using Django-haystack to integerate the elasticsearch with this project.You would have to specify Haystack Connection in the settings.py file : 
+
+	    HAYSTACK_CONNECTIONS = {
+	    'default': {
+	    'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+	    'URL': 'http://127.0.0.1:9200/',# url to elasticsearch webserver 
+	    'INDEX_NAME': 'haystack',
+	    },
+	    }
+ 
+Usage:
+
+	$(ENV)fab update_search # this maps to ./manage.py update_index command offered by haystack to push data into elasticsearch server
+
+	$curl --dump-header - -H "Authorization: ApiKey aregee:notebook" -X GET http://127.0.0.1:8000/api/v1/projects/search/?q=python
+	
+	
+	{
+	"objects": [
+        {
+        "Likes": 0,
+        "comment": [],
+        "desc": "This python script changes extension of all the media files in the directory so they are not skipped in a media scan",
+        "history": "project Gallery Lock   created by kirk forked by aregee ",
+        "id": 6,
+        "resource_uri": "/api/v1/projects/6/",
+        "screenshot": "/media/projects/img_screen_7_1.png",
+        "shared_date": "2013-07-26T20:26:20.275120",
+        "src": "/media/projects/file_rem_1_1.py",
+        "title": "Gallery Lock ",
+        "user": "aregee"
+        },
+        {
+        "Likes": 0,
+        "comment": [],
+        "desc": "This python script changes extension of all the media files in the directory so they are not skipped in a media scan",
+        "history": "",
+        "id": 3,
+        "resource_uri": "/api/v1/projects/3/",
+        "screenshot": "/media/projects/img_screen_7.png",
+        "shared_date": "2013-07-26T20:26:22.787545",
+        "src": "/media/projects/file_rem_1.py",
+        "title": "Gallery Lock  ++ ",
+        "user": "kirk"
+        }
+	]
+	}
+	
