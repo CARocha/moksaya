@@ -9,7 +9,60 @@ Creating a restful interface to moksaya and the website/front end would be a cli
     $source ../ENV/bin/activate
     (ENV)$pip install -r requirements.txt
     (ENV)$fab setup start
-    
+
+### Elasticsearch Backend :
+   
+This is an experimental functionality  I have been playing around for a while, If you would like to setup the elastic search get the server here <http://www.elasticsearch.org/download/> 
+Furthermore I am using Django-haystack to integerate the elasticsearch with this project.You would have to specify Haystack Connection : 
+
+	    HAYSTACK_CONNECTIONS = {
+	    'default': {
+	    'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+	    'URL': 'http://127.0.0.1:9200/',# url to elasticsearch webserver 
+	    'INDEX_NAME': 'haystack',
+	    },
+	    }
+ 
+Usage:
+
+	$(ENV)fab update_search # this maps to ./manage.py update_index command offered by haystack to push data into elasticsearch server
+
+	$curl --dump-header - -H "Authorization: ApiKey aregee:notebook" -X GET http://127.0.0.1:8000/api/v1/projects/search/?q=python
+	
+	
+	{
+	"objects": [
+        {
+        "Likes": 0,
+        "comment": [],
+        "desc": "This python script changes extension of all the media files in the directory so they are not skipped in a media scan",
+        "history": "project Gallery Lock   created by kirk forked by aregee ",
+        "id": 6,
+        "resource_uri": "/api/v1/projects/6/",
+        "screenshot": "/media/projects/img_screen_7_1.png",
+        "shared_date": "2013-07-26T20:26:20.275120",
+        "src": "/media/projects/file_rem_1_1.py",
+        "title": "Gallery Lock ",
+        "user": "aregee"
+        },
+        {
+        "Likes": 0,
+        "comment": [],
+        "desc": "This python script changes extension of all the media files in the directory so they are not skipped in a media scan",
+        "history": "",
+        "id": 3,
+        "resource_uri": "/api/v1/projects/3/",
+        "screenshot": "/media/projects/img_screen_7.png",
+        "shared_date": "2013-07-26T20:26:22.787545",
+        "src": "/media/projects/file_rem_1.py",
+        "title": "Gallery Lock  ++ ",
+        "user": "kirk"
+        }
+	]
+	}
+	
+
+   
 
 ###TODO:
 	1: Implement Proper authorization Class to Apis  	   
@@ -353,10 +406,11 @@ Lets GET the project that is being liked:
 
 ##User followership functionality 
 
-To follow a particular user , we can make POST request like the one shown below where we pass the URI's of the follower and the followee
-     $curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"follower":"/api/v1/profile/2/","followee":"/api/v1/profile/1/"}'  http://127.0.0.1:8000/api/v1/relations/?username=aregee\&api_key=notebook
+To follow a particular user , we can make POST request like the one shown below where we pass the URI's of the follower and the followee:
+   
+	  $curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"follower":"/api/v1/profile/2/","followee":"/api/v1/profile/1/"}'  http://127.0.0.1:8000/api/v1/relations/?username=aregee\&api_key=notebook
 
-    $curl -X GET  http://127.0.0.1:8000/api/v1/relations/1/?username=aregee\&api_key=notebook
+      	  $curl -X GET  http://127.0.0.1:8000/api/v1/relations/1/?username=aregee\&api_key=notebook
     
              {
             "created": "2013-07-26T19:50:06.934249",
@@ -377,12 +431,12 @@ To follow a particular user , we can make POST request like the one shown below 
 
 To unfollow a user , simply delete the above relation 
 
-   $curl -X DELTE  http://127.0.0.1:8000/api/v1/relations/1/?username=aregee\&api_key=notebook
+      $curl -X DELTE  http://127.0.0.1:8000/api/v1/relations/1/?username=aregee\&api_key=notebook
 
 
 Here is how its reflected in Profiles  : 
  
-   $curl -X GET http://127.0.0.1:8000/api/v1/profile/2/?username=aregee\&api_key=notebook
+      $curl -X GET http://127.0.0.1:8000/api/v1/profile/2/?username=aregee\&api_key=notebook
 
            {
             "about_me": "Hello I am Mister Spock",
@@ -423,8 +477,8 @@ Here is how its reflected in Profiles  :
 #Comments :
  
 How To POST : 
-    $ curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/profile/1/","entry":"/api/v1/projects/2/" , "text":"Comment posted with REST" }' http://127.0.0.1:8000/api/v1/comment/?username=aregee\&api_key=notebook
 
+      $ curl --dump-header - -H "Content-Type:application/json" -X POST --data '{"user":"/api/v1/profile/1/","entry":"/api/v1/projects/2/" , "text":"Comment posted with REST" }' http://127.0.0.1:8000/api/v1/comment/?username=aregee\&api_key=notebook
      {
 	    "id":1,
             "entry": "Looping for a While ",
@@ -433,7 +487,7 @@ How To POST :
             "user": "aregee"
      }
 
-    $curl --dump-header - -H "Content-Type:application/json" -X PATCH --data '{"user":"/api/v1/profile/1/","entry":"/api/v1/projects/2/" , "text":"Editing the Patched field and Comment posted with REST" }' http://127.0.0.1:8000/api/v1/comment/<id>/?username=aregee\&api_key=notebook
+     $curl --dump-header - -H "Content-Type:application/json" -X PATCH --data '{"user":"/api/v1/profile/1/","entry":"/api/v1/projects/2/" , "text":"Editing the Patched field and Comment posted with REST" }' http://127.0.0.1:8000/api/v1/comment/<id>/?username=aregee\&api_key=notebook
 
     $curl --dump-header - -H "Content-Type:application/json" -X DELETE ' http://127.0.0.1:8000/api/v1/comment/<id>/?username=aregee\&api_key=notebook
 
