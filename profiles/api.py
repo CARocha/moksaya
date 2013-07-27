@@ -8,17 +8,19 @@ from django.conf.urls.defaults import *
 from django.contrib.auth.models import User
 from friendship.models import *
 from django.contrib.contenttypes.models import ContentType
-from tastypie.authorization import DjangoAuthorization
 from tastypie.authentication import BasicAuthentication ,ApiKeyAuthentication
 from tastypie.authorization import Authorization
 from tastypie.authentication import Authentication
 from profiles.authorization import GuardianAuthorization
+from tastypie.exceptions import NotFound 
+from tastypie.models import ApiKey
 from django.core.files.base import ContentFile
 from django.core.paginator import Paginator, InvalidPage
 from django.http import Http404
 from haystack.query import SearchQuerySet
 from tastypie.utils import trailing_slash
 from profiles.models import *
+
 
 class PrettyJSONSerializer(Serializer): 
     json_indent = 4 
@@ -36,6 +38,27 @@ class PrettyJSONSerializer(Serializer):
 
         return data
 
+
+
+class ApiTokenResource(ModelResource):
+    class Meta:
+        queryset = ApiKey.objects.all()
+        resource_name = "token"
+        serializer = PrettyJSONSerializer()
+        include_resource_uri = False
+        fields = ['key']
+        detail_allowed_methods = ["get"]
+        authentication = BasicAuthentication()
+
+    def get_detail(self, request, **kwargs):
+        if kwargs["pk"] != "auth":
+            raise NotImplementedError("Resource not found here")
+        obj = ApiKey.objects.get(user=request.user)
+        
+        bundle = self.build_bundle(obj=obj, request=request.user)
+        bundle = self.full_dehydrate(bundle)
+        bundle = self.alter_detail_data_to_serialize(request, bundle)
+        return self.create_response(request, bundle)
 
     
 

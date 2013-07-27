@@ -3,11 +3,15 @@ from django.utils.translation import ugettext_lazy as _
 from userena.models import UserenaLanguageBaseProfile,UserenaBaseProfile
 from userena.utils import user_model_label
 from django.contrib.auth.models import User
+from tastypie.models import create_api_key
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 import datetime
+
+
+models.signals.post_save.connect(create_api_key, sender=User)
 
 
 class Profile(UserenaLanguageBaseProfile):

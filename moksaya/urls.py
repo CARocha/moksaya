@@ -21,7 +21,7 @@ v1_api.register(ForkResource())
 v1_api.register(SignupResource())
 v1_api.register(FollowingResource())
 v1_api.register(CommentResource())
-
+v1_api.register(ApiTokenResource())
 
 urlpatterns = patterns('',
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
