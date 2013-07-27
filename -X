@@ -1,0 +1,18 @@
+HTTP/1.1 200 OK
+Date: Fri, 26 Jul 2013 23:50:37 GMT
+Server: Apache
+Cache-control: no-cache, no-store
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+Pragma: no-cache
+Connection: close
+Transfer-Encoding: chunked
+Content-Type: text/html; charset=UTF-8
+
+HTTP/1.0 501 NOT IMPLEMENTED
+Date: Fri, 26 Jul 2013 23:50:10 GMT
+Server: WSGIServer/0.1 Python/2.7.3
+Vary: Accept, Accept-Language, Cookie
+X-Frame-Options: SAMEORIGIN
+Content-Type: text/html; charset=utf-8
+Content-Language: en-us
+

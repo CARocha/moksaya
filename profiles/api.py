@@ -145,7 +145,11 @@ class LikeResource(ModelResource):
         authentication = ApiKeyAuthentication()
         authorization = Authorization()
     
-  
+    def dehydrate(self,bundle):
+        bundle.data["user"] = bundle.obj.user
+        bundle.data["Liked"] = bundle.obj.liked_content_type
+        return bundle
+       
 
 class FollowingResource(ModelResource):
     follower = fields.ToOneField(to='profiles.api.ProfileResource',attribute='follower',related_name="profile")           

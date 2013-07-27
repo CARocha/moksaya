@@ -72,8 +72,17 @@ def GetProject():
     local("""curl http://127.0.0.1:8000/api/v1/projects/?username=%s\&api_key=%s""" % (user,key))
     
 
+def PatchProject():
+
+    print("\nlets  PATCH a project for Spock \n")
+    local("""curl --dump-header - -H "Content-Type:application/json" -X PATCH --data '{"title":"Gallery Lock ++ " }' http://127.0.0.1:8000/api/v1/projects/1/?username=%s\&api_key=%s""" % (user,key))
+    print("\nso lets PATCH a project for Uhura \n")
+    local("""curl --dump-header - -H "Content-Type:application/json" -X PATCH --data '{"title":"Looping ++ " }' http://127.0.0.1:8000/api/v1/projects/2/?username=%s\&api_key=%s""" % (user,key))
+    print("\nso lets PATCH a project for Kirk \n")
+    local("""curl --dump-header - -H "Content-Type:application/json" -X PATCH --data '{"title":"Gallery Lock  ++ " }' http://127.0.0.1:8000/api/v1/projects/3/?username=%s\&api_key=%s""" % (user,key))
+
 def forkProject():
-    print("\n %s is logged in as a Admiral of the StarFlee  and  can fork the projects of all the USS Enterprise Officiers \n")
+    print("\n %s is logged in as a Admiral of the StarFlee  and  can fork the projects of all the USS Enterprise Officiers \n" % user)
     local("""curl http://127.0.0.1:8000/api/v1/forking/1/?username=%s\&api_key=%s""" %(user,key))
     local("""curl http://127.0.0.1:8000/api/v1/forking/2/?username=%s\&api_key=%s""" %(user,key))
     local("""curl http://127.0.0.1:8000/api/v1/forking/3/?username=%s\&api_key=%s""" %(user,key))
@@ -223,6 +232,7 @@ def PostTest():
 def PatchTest():
     PatchProfile()
     PatchComment()
+    PatchProject()
 
    
 def test():
