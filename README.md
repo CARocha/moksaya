@@ -66,7 +66,7 @@ Usage:
 
 ###TODO:
 	1: Implement Proper authorization Class to Apis  	   
-	2: Hook up auto create api keys fucntionality 
+
 
 
 ###Authentication:
@@ -87,13 +87,29 @@ Tastypie seperates the authentication and authorization pretty neatly ,I am usin
  
 
 ###Test:
+After setting up the project for the first time , you would need to register an user and get the api_key to access the resources.
+You can also setup the superuser while setting up the project with ./manage.py syncdb or fab setup 	 
 
-After setting up the project for the first time , please login to 127.0.0.1/<port>/admin and setup the the api_key for the super user.
+To Register a new user make the following curl request:
+   
+     $curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"username":"spock","password":"notebook"}' http://127.0.0.1:8000/api/v1/register/ 
+
+To get your api_key :
+
+     $ curl -k --user "username:password" http://127.0.0.1:8000/api/v1/token/auth/
+
+This should return a json resoponse like this :
+
+     {
+    "key": "600ca8c91d70376c7427854687d979ad97bb92ef"
+     }       
+
+
 Next thing you need to do is to edit thhe fabfile
      
-     user = "aregee"
+     user = "spock"
      #Provide the username you used while setting up the project.
-     key =  "notebook"
+     key =  "600ca8c91d70376c7427854687d979ad97bb92ef"
      #Add the api_key that you createdd in the admin 
 
 Now , this fabric script would test basic use cases for the project using curl.Fabric is included in the dependencies so just open a new terminal to the root of project:
@@ -119,12 +135,12 @@ Uppon successful completation , you woul find a project forked to super users pr
 
 Okay , lets say first thing we want to do is to create a new user say 'Spock':  
 
-        $ curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"username":"spock","password":"notebook"}' http://127.0.0.1:8000/api/v1/user/?username=aregee\&api_key=notebook
-	
+       $curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"username":"spock","password":"notebook"}' http://127.0.0.1:8000/api/v1/register/ 
+		
 Lets check the created user :
 
 
-      	$ curl --dump-header - -H "Content-Type:application/json"-X http://127.0.0.1:8000/api/v1/user/3/?username=aregee\&api_key=notebook
+      	$ curl --dump-header - -H "Content-Type:application/json"-X http://127.0.0.1:8000/api/v1/user/spock/?username=spock\&api_key=<key>
 	
 	HTTP/1.0 200 OK
 	Date: Thu, 11 Jul 2013 02:31:21 GMT
